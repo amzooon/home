@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scheda di Contatto📝</title>
+<link rel="icon" type="image/png" href="Pacco.png">
+<style>
+  body {
+    background-color: #00b7ff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .contact-card {
+    background-color: #fff;
+    box-shadow: 0 2px 20000px #0085ba;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    border: 10px;
+    border-radius: 25px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+  }
+  .contact-card h2 {
+    font-size: 1.5rem;
+    margin: 0; /* Rimuove il margine superiore e inferiore */
+    text-align: center; /* Centra il testo */
+    color: red; /* Colore rosso */
+    font-weight: bold; /* Grassetto */
+  }
+  .contact-card label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  .contact-card input {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  .contact-card textarea {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    min-height: 100px;
+    max-height: 100px;
+    resize: none;
+  }
+  .contact-card button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .contact-card button:hover {
+    background-color: #0056b3;
+  }
+  .transparent-text {
+  position: relative;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 14px; /* Modifica la grandezza del testo come preferisci */
+  margin-bottom: 20px;
+}
+</style>
+</head>
+<body>
+  <div class="contact-card">
+    <script src="js"></script>
+    <h2>Contattaci!!!😃</h2>
+    <form action="https://formspree.io/f/xzbnjybr"method="POST">
+<!-- OPPURE
+<form action="https://api.web3forms.com/submit" method="POST">
+  <form action="index.html" method="POST">
+  <form action="#" method="post">
+    <input type="hidden" name="access_key" value="d0d155e2-7271-47e0-9ad3-a72cb863731a">
+    <label for="name">Nome-Cognome:</label>
+    <input type="text" id="name" name="name" required>
+-->
+  <form action="index.html" method="POST">
+    <form action="#" method="post">
+      <label for="name">Nome-Cognome:</label>
+      <input type="text" id="name" name="name" required>
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      
+      <label for="phone">Telefono:</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <label for="productCode">Indirizzo:</label>
+      <input type="text" id="adress" name="adress" required>
+
+      <label for="productCode">Cap:</label>
+      <input type="text" id="cap" name="cap" required>
+      
+      <label for="productCode">Codice Prodotto*:</label>
+      <input type="text" id="code" name="code" id="search-box" class="search-box" placeholder="*il codice del prodotto lo trovi nella pagina precedente" required>
+      
+      <label for="comment">Commento:</label>
+      <textarea id="comment" name="comment" rows="4" cols="50" id="search-box" class="search-box" placeholder="(Campo non obbligatorio)"></textarea>
+      
+      <!-- Campo nascosto per l'indirizzo IP -->
+      <input type="hidden" id="ip" name="ip">
+
+      <div class="transparent-text">-------------------------------------------------------------------------------------</div>
+      <div class="transparent-text">Una volta che avrai inviato il modulo di contatto verrai chiamato per un ulteriore conferma e se vorrai ottenere più prodotti potrai scrivercelo nella casella 'Commento' oppure inviare un altro modulo quando verrai reindirizzato a questa pagina. ATTENZIONE i pagamenti verranno eseguiti in contanti!💵.</div>
+      <div class="transparent-text">-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*</div>
+      <button type="submit">Invia🚀</button>
+      <a href="Torna Alla Home" style="background-color: red; color: white; padding: 10px 20px; text-decoration: none; border-radius: 3px; float: right;">Torna alla Home🏠</a>
+    </form>
+  </div>
+    <!-- Script JavaScript per ottenere l'indirizzo IP del client -->
+    <script>
+        // Funzione per ottenere l'indirizzo IP del client
+        function getIPAddress() {
+          fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+              // Imposta l'indirizzo IP nel campo nascosto
+              document.getElementById('ip').value = data.ip;
+            })
+            .catch(error => console.error('Errore durante il recupero dell\'indirizzo IP:', error));
+        }
+    
+        // Esegui la funzione per ottenere l'indirizzo IP quando la pagina si carica
+        window.onload = getIPAddress;
+      </script>
+    </body>
+    </html>
