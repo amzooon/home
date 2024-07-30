@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact📞</title>
+    <link rel="icon" type="image/png" href="ico\Pacco.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(255, 0, 0);
+        }
+        header {
+            background-color: #262626;
+            color: rgba(255, 255, 255, 0.814);
+            padding: 10px;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            padding: 5px;
+            text-align: center;
+        }
+        nav a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        .contact-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Posiziona il riquadro più in alto */
+            min-height: 100vh; /* Altezza minima pari all'altezza della viewport per centrare verticalmente */
+            padding-top: 50px; /* Aggiunge spazio sopra il riquadro */
+        }
+        .contact-card {
+            padding: 20px;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+            position: relative;
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 400px; /* Larghezza del riquadro */
+        }
+        .contact-card:hover {
+            transform: scale(1.05); /* Scala il riquadro al passaggio del mouse */
+        }
+        .contact-card h2 {
+            margin-top: 0;
+            color: #00b7ff;
+        }
+        .contact-details {
+            margin-top: 15px;
+        }
+        .contact-details p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+        .neon-text {
+    color: white;
+    /* Applichiamo un'ombra di luce con un colore fisso e un effetto arcobaleno */
+    text-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow, 0 0 40px green, 0 0 50px blue, 0 0 60px indigo, 0 0 70px violet, 0 0 80px red, 0 0 90px orange;
+    /* Avviamo un'animazione per far scorrere l'effetto neon attraverso i colori dell'arcobaleno */
+    animation: rainbow-animation 5s linear infinite;
+}
+
+/* Definiamo l'animazione per far scorrere l'effetto neon attraverso i colori dell'arcobaleno */
+@keyframes rainbow-animation {
+    0% {
+        text-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow, 0 0 40px green, 0 0 50px blue, 0 0 60px indigo, 0 0 70px violet, 0 0 80px red, 0 0 90px orange;
+    }
+    14.3% {
+        text-shadow: 0 0 10px orange, 0 0 20px yellow, 0 0 30px green, 0 0 40px blue, 0 0 50px indigo, 0 0 60px violet, 0 0 70px red, 0 0 80px orange, 0 0 90px yellow;
+    }
+    28.6% {
+        text-shadow: 0 0 10px yellow, 0 0 20px green, 0 0 30px blue, 0 0 40px indigo, 0 0 50px violet, 0 0 60px red, 0 0 70px orange, 0 0 80px yellow, 0 0 90px green;
+    }
+    42.9% {
+        text-shadow: 0 0 10px green, 0 0 20px blue, 0 0 30px indigo, 0 0 40px violet, 0 0 50px red, 0 0 60px orange, 0 0 70px yellow, 0 0 80px green, 0 0 90px blue;
+    }
+    57.2% {
+        text-shadow: 0 0 10px blue, 0 0 20px indigo, 0 0 30px violet, 0 0 40px red, 0 0 50px orange, 0 0 60px yellow, 0 0 70px green, 0 0 80px blue, 0 0 90px indigo;
+    }
+    71.5% {
+        text-shadow: 0 0 10px indigo, 0 0 20px violet, 0 0 30px red, 0 0 40px orange, 0 0 50px yellow, 0 0 60px green, 0 0 70px blue, 0 0 80px indigo, 0 0 90px violet;
+    }
+    85.8% {
+        text-shadow: 0 0 10px violet, 0 0 20px red, 0 0 30px orange, 0 0 40px yellow, 0 0 50px green, 0 0 60px blue, 0 0 70px indigo, 0 0 80px violet, 0 0 90px red;
+    }
+    100% {
+        text-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow, 0 0 40px green, 0 0 50px blue, 0 0 60px indigo, 0 0 70px violet, 0 0 80px red, 0 0 90px orange;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="neon-text">Contact📞</h1>
+    </header>
+    <nav>
+        <a href="index">Home🏠</a>
+        <a href="Contact">Contact📞</a>
+        <a href="Translate">Translate🖨️</a>
+        <a href="Database">Database🗃️</a>
+        <a href="Drive Login">Cloud☁️</a>
+        <a href="Map">Map🗺️</a>
+    </nav>
+    <div class="contact-container">
+        <div class="contact-card">
+            <h2>Informazioni di Contatto</h2>
+            <div class="contact-details">
+                <p><strong>Nome:</strong> John Doe</p>
+                <p><strong>Email:</strong> johndoe@example.com</p>
+                <p><strong>Telefono:</strong> 123-456-7890</p>
+                <p><strong>Città:</strong> Città di Esempio</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
