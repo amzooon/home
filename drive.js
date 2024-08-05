@@ -18,6 +18,7 @@ const mediaFiles = [
     { type: 'image', src: 'img/kyle/52.jpg', name: 'image52.jpg' },
     { type: 'video', src: 'img/video/22.mp4', name: 'video22.mp4', description: '' },
     { type: 'video', src: 'img/video/23.mp4', name: 'video23.mp4', description: '' },
+    { type: 'video', src: 'img/video/87.mp4', name: 'video87.mp4', description: '' },
     { type: 'image', src: 'img/brando/17.jpg', name: 'image17.jpg' },
     { type: 'image', src: 'img/brando/18.jpg', name: 'image18.jpg' },
     { type: 'image', src: 'img/brando/19.jpg', name: 'image19.jpg' },
@@ -83,6 +84,7 @@ const mediaFiles = [
     { type: 'video', src: 'img/video/63.mp4', name: 'video63.mp4', description: '' },
     { type: 'video', src: 'img/video/64.mp4', name: 'video64.mp4', description: '' },
     { type: 'video', src: 'img/video/65.mp4', name: 'video65.mp4', description: '' },
+    { type: 'video', src: 'img/video/86.mp4', name: 'video86.mp4', description: '' },
 ];
 
 const mediaGrid = document.getElementById('mediaGrid');
