@@ -220,6 +220,192 @@
             imageElement.style.height = selectedImage.height;
         });
     </script>
-    <script src="drive.js"></script>
+    <script>
+        const mediaFiles = [
+    { type: 'image', src: 'img/kyle/1.jpg', name: 'image kyle 1.jpg' },
+    { type: 'image', src: 'img/kyle/2.jpg', name: 'image kyle 2.jpg' },
+    { type: 'image', src: 'img/kyle/3.jpg', name: 'image kyle 3.jpg' },
+    { type: 'image', src: 'img/kyle/4.jpg', name: 'image kyle 4.jpg' },
+    { type: 'image', src: 'img/kyle/5.jpg', name: 'image kyle 5.jpg' },
+    { type: 'image', src: 'img/kyle/6.jpg', name: 'image kyle 6.jpg' },
+    { type: 'image', src: 'img/kyle/7.jpg', name: 'image kyle 7.jpg' },
+    { type: 'image', src: 'img/kyle/8.jpg', name: 'image kyle 8.jpg' },
+    { type: 'image', src: 'img/kyle/9.jpg', name: 'image kyle 9.jpg' },
+    { type: 'image', src: 'img/kyle/10.jpg', name: 'image kyle 10.jpg' },
+    { type: 'image', src: 'img/kyle/11.jpg', name: 'image kyle 11.jpg' },
+    { type: 'image', src: 'img/kyle/12.jpg', name: 'image kyle 12.jpg' },
+    { type: 'image', src: 'img/kyle/13.jpg', name: 'image kyle 13.jpg' },
+    { type: 'image', src: 'img/kyle/14.jpg', name: 'image kyle 14.jpg' },
+    { type: 'image', src: 'img/kyle/15.jpg', name: 'image kyle 15.jpg' },
+    { type: 'image', src: 'img/kyle/16.jpg', name: 'image kyle 16.jpg' },
+    { type: 'image', src: 'img/kyle/17.jpg', name: 'image kyle 17.jpg' },
+    { type: 'video', src: 'img/kyle/18.mp4', name: 'video kyle 18.mp4', description: '' },
+    { type: 'video', src: 'img/kyle/19.mp4', name: 'video kyle 19.mp4', description: '' },
+    { type: 'video', src: 'img/kyle/20.mp4', name: 'video kyle 20.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/1.mp4', name: 'video charlie 1.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/2.mp4', name: 'video charlie 2.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/3.mp4', name: 'video charlie 3.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/4.mp4', name: 'video charlie 4.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/5.mp4', name: 'video charlie 5.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/6.mp4', name: 'video charlie 6.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/7.mp4', name: 'video charlie 7.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/8.mp4', name: 'video charlie 8.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/9.mp4', name: 'video charlie 9.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/10.mp4', name: 'video charlie 10.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/11.mp4', name: 'video charlie 11.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/12.mp4', name: 'video charlie 12.mp4', description: '' },
+    { type: 'video', src: 'img/charlie/13.mp4', name: 'video charlie 13.mp4', description: '' },
+    { type: 'image', src: 'img/brando/1.jpg', name: 'image brando 1.jpg' },
+    { type: 'image', src: 'img/brando/2.jpg', name: 'image brando 2.jpg' },
+    { type: 'image', src: 'img/brando/3.jpg', name: 'image brando 3.jpg' },
+    { type: 'image', src: 'img/brando/4.jpg', name: 'image brando 4.jpg' },
+    { type: 'image', src: 'img/brando/5.jpg', name: 'image brando 5.jpg' },
+    { type: 'video', src: 'img/brando/6.mp4', name: 'video brando 6.mp4', description: '' },
+    { type: 'image', src: 'img/kiern/1.jpg', name: 'image kiern 1.jpg' },
+    { type: 'image', src: 'img/kiern/2.jpg', name: 'image kiern 2.jpg' },
+    { type: 'image', src: 'img/kiern/3.jpg', name: 'image kiern 3.jpg' },
+    { type: 'image', src: 'img/kiern/4.jpg', name: 'image kiern 4.jpg' },
+    { type: 'image', src: 'img/kiern/5.jpg', name: 'image kiern 5.jpg' },
+    { type: 'image', src: 'img/kiern/6.jpg', name: 'image kiern 6.jpg' },
+    { type: 'image', src: 'img/kiern/7.jpg', name: 'image kiern 7.jpg' },
+    { type: 'image', src: 'img/kiern/8.jpg', name: 'image kiern 8.jpg' },
+    { type: 'image', src: 'img/kiern/9.jpg', name: 'image kiern 9.jpg' },
+    { type: 'image', src: 'img/kiern/10.jpg', name: 'image kiern 10.jpg' },
+    { type: 'image', src: 'img/kiern/11.jpg', name: 'image kiern 11.jpg' },
+    { type: 'image', src: 'img/kiern/12.jpg', name: 'image kiern 12.jpg' },
+    { type: 'image', src: 'img/kiern/13.jpg', name: 'image kiern 13.jpg' },
+    { type: 'image', src: 'img/kiern/14.jpg', name: 'image kiern 14.jpg' },
+    { type: 'image', src: 'img/kiern/15.jpg', name: 'image kiern 15.jpg' },
+    { type: 'image', src: 'img/kiern/16.jpg', name: 'image kiern 16.jpg' },
+    { type: 'image', src: 'img/kiern/17.jpg', name: 'image kiern 17.jpg' },
+    { type: 'image', src: 'img/kiern/18.jpg', name: 'image kiern 18.jpg' },
+    { type: 'image', src: 'img/kiern/19.jpg', name: 'image kiern 19.jpg' },
+    { type: 'image', src: 'img/kiern/20.jpg', name: 'image kiern 20.jpg' },
+    { type: 'image', src: 'img/kiern/21.jpg', name: 'image kiern 21.jpg' },
+    { type: 'image', src: 'img/kiern/22.jpg', name: 'image kiern 22.jpg' },
+    { type: 'image', src: 'img/kiern/23.jpg', name: 'image kiern 23.jpg' },
+    { type: 'image', src: 'img/kiern/24.jpg', name: 'image kiern 24.jpg' },
+    { type: 'image', src: 'img/kiern/25.jpg', name: 'image kiern 25.jpg' },
+    { type: 'image', src: 'img/ai/1.png', name: 'image ai 1.png' },
+    { type: 'image', src: 'img/ai/2.png', name: 'image ai 2.png' },
+    { type: 'image', src: 'img/ai/3.png', name: 'image ai 3.png' },
+    { type: 'image', src: 'img/ai/4.png', name: 'image ai 4.png' },
+    { type: 'image', src: 'img/ai/5.png', name: 'image ai 5.png' },
+    { type: 'image', src: 'img/ai/6.png', name: 'image ai 6.png' },
+    { type: 'image', src: 'img/ai/7.png', name: 'image ai 7.png' },
+    { type: 'image', src: 'img/ai/8.png', name: 'image ai 8.png' },
+    { type: 'image', src: 'img/ai/9.png', name: 'image ai 9.png' },
+    { type: 'image', src: 'img/ai/10.jpg', name: 'image ai 10.jpg' },
+    { type: 'image', src: 'img/art/1.png', name: 'image art 1.png' },
+    { type: 'image', src: 'img/art/2.png', name: 'image art 2.png' },
+    { type: 'image', src: 'img/art/3.png', name: 'image art 3.png' },
+    { type: 'image', src: 'img/art/4.png', name: 'image art 4.png' },
+    { type: 'image', src: 'img/art/5.png', name: 'image art 5.png' },
+    { type: 'image', src: 'img/art/6.png', name: 'image art 6.png' },
+    { type: 'image', src: 'img/art/7.png', name: 'image art 7.png' },
+    { type: 'image', src: 'img/art/8.png', name: 'image art 8.png' },
+    { type: 'image', src: 'img/art/9.png', name: 'image art 9.png' },
+    { type: 'image', src: 'img/art/10.png', name: 'image art 10.png' },
+    { type: 'image', src: 'img/art/11.png', name: 'image art 11.png' },
+    { type: 'image', src: 'img/art/12.png', name: 'image art 12.png' },
+    { type: 'image', src: 'img/art/13.png', name: 'image art 13.png' },
+    { type: 'image', src: 'img/art/14.png', name: 'image art 14.png' },
+    { type: 'image', src: 'img/art/15.png', name: 'image art 15.png' },
+    { type: 'image', src: 'img/art/16.png', name: 'image art 16.png' },
+    { type: 'video', src: 'img/video/1.mp4', name: 'video1.mp4', description: '' },
+    { type: 'video', src: 'img/video/2.mp4', name: 'video2.mp4', description: '' },
+    { type: 'video', src: 'img/video/3.mp4', name: 'video3.mp4', description: '' },
+    { type: 'video', src: 'img/video/4.mp4', name: 'video4.mp4', description: '' },
+    { type: 'video', src: 'img/video/5.mp4', name: 'video5.mp4', description: '' },
+    { type: 'video', src: 'img/video/6.mp4', name: 'video6.mp4', description: '' },
+    { type: 'video', src: 'img/video/7.mp4', name: 'video7.mp4', description: '' },
+    { type: 'video', src: 'img/video/8.mp4', name: 'video8.mp4', description: '' },
+    { type: 'video', src: 'img/video/9.mp4', name: 'video9.mp4', description: '' },
+    { type: 'video', src: 'img/video/10.mp4', name: 'video10.mp4', description: '' },
+    { type: 'video', src: 'img/video/11.mp4', name: 'video11.mp4', description: '' },
+    { type: 'video', src: 'img/video/12.mp4', name: 'video12.mp4', description: '' },
+    { type: 'video', src: 'img/video/13.mp4', name: 'video13.mp4', description: '' },
+    { type: 'video', src: 'img/video/14.mp4', name: 'video14.mp4', description: '' },
+    { type: 'video', src: 'img/video/15.mp4', name: 'video15.mp4', description: '' },
+];
+
+const mediaGrid = document.getElementById('mediaGrid');
+const modal = document.getElementById('myModal');
+const modalContent = document.getElementById('modalContent');
+const modalImg = document.getElementById('modalImage');
+const downloadButton = document.getElementById('downloadButton');
+const closeSpan = document.getElementsByClassName('close')[0];
+
+mediaFiles.forEach(file => {
+    const gridItem = document.createElement('div');
+    gridItem.classList.add('grid-item');
+
+    if (file.type === 'image') {
+        const img = document.createElement('img');
+        img.src = file.src;
+        img.alt = file.name;
+        img.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            downloadButton.href = this.src;
+
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const maxModalWidth = windowWidth * 0.9;
+            const maxModalHeight = windowHeight * 0.9;
+
+            const imgAspectRatio = this.naturalWidth / this.naturalHeight;
+            const modalAspectRatio = maxModalWidth / maxModalHeight;
+
+            if (imgAspectRatio > modalAspectRatio) {
+                modalImg.style.width = `${maxModalWidth}px`;
+                modalImg.style.height = `${maxModalWidth / imgAspectRatio}px`;
+            } else {
+                modalImg.style.height = `${maxModalHeight}px`;
+                modalImg.style.width = `${maxModalHeight * imgAspectRatio}px`;
+            }
+
+            modalContent.style.display = "flex";
+            modalContent.style.justifyContent = "center";
+            modalContent.style.alignItems = "center";
+            modalContent.style.height = `${maxModalHeight}px`;
+            modalContent.style.marginTop = "5%";
+        };
+        gridItem.appendChild(img);
+    } else if (file.type === 'video') {
+        const video = document.createElement('video');
+        video.src = file.src;
+        video.controls = true;
+        gridItem.appendChild(video);
+
+        if (file.description) {
+            const description = document.createElement('p');
+            description.textContent = file.description;
+            description.style.color = 'white';
+            gridItem.appendChild(description);
+        }
+    }
+
+    const downloadLink = document.createElement('a');
+    downloadLink.href = file.src;
+    downloadLink.download = file.name;
+    downloadLink.classList.add('download-link');
+    downloadLink.textContent = 'Download';
+    gridItem.appendChild(downloadLink);
+
+    mediaGrid.appendChild(gridItem);
+});
+
+closeSpan.onclick = function() {
+    modal.style.display = "none";
+};
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+
+    </script>
 </body>
 </html>
