@@ -98,21 +98,34 @@
         <p id="errorMessage" class="error"></p>
     </div>
     <script>
-      const loginForm = document.getElementById('loginForm');
+        const loginForm = document.getElementById('loginForm');
 const errorMessage = document.getElementById('errorMessage');
 
-const password = "const passwordInput = document.getElementById('password').value";
+// La password segreta codificata in Base64
+const passwordBase64 = "Y29uc3QgcGFzc3dvcmRJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwYXNzd29yZCcpLnZhbHVl"; // Codifica di "const passwordInput = document.getElementById('password').value"
+
+// L'URL a cui reindirizzare l'utente, codificato in Base64
+const urlBase64 = "aHR0cHM6Ly9hbXpvb29uLmdpdGh1Yi5pby9ob21lL2RyaXZlLW1haW4tdGZyY2d0Y2ZyZ3RjZnJnZGVyZHV0dm9naGpodTU2ZXJzeHk4N2dvNjUxNDg5RkRFUmt0Z2g2NTQ4OXpndHlnZnRjcmJmdGRmamh2bnZoZ3Ryc2VyeWVyeTY1cjc5eTA5dSVDMyVBQ28lQzMlQUNpb3l1Z2wlQzMlQjJqJUMzJUEwaiVDMyVBMG9paHV5ZnR5dHJ0aGp5Z3l0Ni5odG1s"; // Codifica di "https://www.example.com"
 
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const passwordInput = document.getElementById('password').value;
-    if (passwordInput === password) {
+
+    // Converte la password inserita dall'utente in Base64
+    const passwordInputBase64 = btoa(passwordInput); // btoa() converte in Base64
+
+    // Confronta la password codificata
+    if (passwordInputBase64 === passwordBase64) {
         localStorage.setItem('authenticated', 'true');
-        window.location.href = 'drive-main-tfrcgtcfrgtcfrgderdutvoghjhu56ersxy87go651489FDERktgh65489zgtygftcrbftdfjhvnvhgtrseryery65r79y09uìoìioyuglòjàjàoihuyftytrthjygyt6.html';
+
+        // Decodifica l'URL dal Base64 e reindirizza
+        const redirectUrl = atob(urlBase64); // Decodifica l'URL da Base64
+        window.location.href = redirectUrl; // Reindirizza all'URL decodificato
     } else {
         errorMessage.textContent = "Password errata. Riprova.";
     }
-}); /*oppure <script src="login.js"><\script>*/
+});
+
     </script>
 </body>
 </html>
