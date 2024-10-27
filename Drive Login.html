@@ -104,12 +104,8 @@
         // La password segreta in base64
         const passwordBase64 = "Y29uc3QgcGFzc3dvcmRJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwYXNzd29yZCcpLnZhbHVl";
 
-<<<<<<<<< Temporary merge branch 1
         // L'URL di reindirizzamento criptato in Base64
-=========
-        // L'URL di reindirizzamento
->>>>>>>>> Temporary merge branch 2
-        const redirectUrlBase64 = "aHR0cHM6Ly9hbXpvb29uLmdpdGh1Yi5pby9ob21lL3ZlcmlmeS1idWRoeXJ1Ymhxd2JobDg3b3QzNHdlZmczNDdxd29mZWdpYnFvN3c4M3Q2V1AzNEhZVVdPM1Q3TzM2RzdISVdGVDYwNFlJSFdQR1Q2MElISkZXVDM2ODcwMVBZMTMwVDZHWU5ISUpFRld5dWJmaTV0ODBnMnRnM2dwaTR5ODB0NTcycXdiaTM0MjgwNS5odG1s";
+        const redirectUrlBase64 = "aHR0cHM6Ly9hbXpvb24uZ2l0aHViLmlvL2hvbWUvdmVyaWZ5LWJ1ZGh5cnViaHF3YmhsODdvdDM0d2VmZzM0N3F3b2ZlZ2licW83dzgzdDdXUDM0SFlVV08zVDdPMzZHN0hJV0ZUNTYwNFlJV0dUNjBJSEpGV1QzNjg3MDFQWTEzMFRHNllOSElKRUZXeXViZmk1dDgwZzJ0ZzNncGk0eTgwVDU3MnF3YmkzNDI4MDUuaHRtbA==";
 
         // Funzione per generare un codice casuale di 10 lettere
         function generateRandomCode() {
@@ -140,11 +136,7 @@
                 // Reindirizza l'utente alla pagina di verifica del codice
                 localStorage.setItem('generatedCode', randomCode);
                 
-<<<<<<<<< Temporary merge branch 1
                 // Decodifica l'URL di reindirizzamento
-=========
-                // Decodifica
->>>>>>>>> Temporary merge branch 2
                 const redirectUrl = atob(redirectUrlBase64);
                 window.location.href = redirectUrl;
             } else {
