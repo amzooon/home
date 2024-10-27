@@ -101,8 +101,11 @@
         const loginForm = document.getElementById('loginForm');
         const errorMessage = document.getElementById('errorMessage');
 
-        // La password
+        // La password segreta in base64
         const passwordBase64 = "Y29uc3QgcGFzc3dvcmRJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwYXNzd29yZCcpLnZhbHVl";
+
+        // L'URL di reindirizzamento criptato in Base64
+        const redirectUrlBase64 = "aHR0cHM6Ly9hbXpvb29uLmdpdGh1Yi5pby9ob21lL3ZlcmlmeS1idWRoeXJ1Ymhxd2JobDg3b3QzNHdlZmczNDdxd29mZWdpYnFvN3c4M3Q2V1AzNEhZVVdPM1Q3TzM2RzdISVdGVDYwNFlJSFdQR1Q2MElISkZXVDM2ODcwMVBZMTMwVDZHWU5ISUpFRld5dWJmaTV0ODBnMnRnM2dwaTR5ODB0NTcycXdiaTM0MjgwNS5odG1s";
 
         // Funzione per generare un codice casuale di 10 lettere
         function generateRandomCode() {
@@ -132,7 +135,10 @@
 
                 // Reindirizza l'utente alla pagina di verifica del codice
                 localStorage.setItem('generatedCode', randomCode);
-                window.location.href = 'verify-budhyrubhqwbhl87ot34wefg347qwofegibqo7w83t6WP34HYUWO3T7O36G7HIWFT604YIHWPGT60IHJFWT368701PY130T6GYNHIJEFWyubfi5t80g2tg3gpi4y80t572qwbi342805.html';
+                
+                // Decodifica l'URL di reindirizzamento
+                const redirectUrl = atob(redirectUrlBase64);
+                window.location.href = redirectUrl;
             } else {
                 errorMessage.textContent = "Password errata. Riprova.";
             }
