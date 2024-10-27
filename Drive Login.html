@@ -88,41 +88,56 @@
     </style>
 </head>
 <body>
-    <a href="index" class="back-arrow">&#8592;</a>
     <div class="login-container">
         <h1>Login</h1>
         <form id="loginForm">
+            <a href="index" class="back-arrow">&#8592;</a>
             <input type="password" id="password" placeholder="Inserisci la password" required>
             <button type="submit">Accedi</button>
         </form>
         <p id="errorMessage" class="error"></p>
     </div>
+
     <script>
         const loginForm = document.getElementById('loginForm');
-const errorMessage = document.getElementById('errorMessage');
+        const errorMessage = document.getElementById('errorMessage');
 
-// La password segreta 
-const passwordBase64 = "Y29uc3QgcGFzc3dvcmRJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwYXNzd29yZCcpLnZhbHVl"; 
+        // La password segreta in base64
+        const passwordBase64 = "Y29uc3QgcGFzc3dvcmRJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwYXNzd29yZCcpLnZhbHVl";
 
-// L'URL a cui reindirizzare l'utente
-const urlBase64 = "aHR0cHM6Ly9hbXpvb29uLmdpdGh1Yi5pby9ob21lL2RyaXZlLW1haW4tdGZyY2d0Y2ZyZ3RjZnJnZGVyZHV0dm9naGpodTU2ZXJzeHk4N2dvNjUxNDg5RkRFUmt0Z2g2NTQ4OXpndHlnZnRjcmJmdGRmamh2bnZoZ3Ryc2VyeWVyeTY1cjc5eTA5dSVDMyVBQ28lQzMlQUNpb3l1Z2wlQzMlQjJqJUMzJUEwaiVDMyVBMG9paHV5ZnR5dHJ0aGp5Z3l0Ni5odG1s"; 
+        // Funzione per generare un codice casuale di 10 lettere
+        function generateRandomCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let code = '';
+            for (let i = 0; i < 10; i++) {
+                code += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return code;
+        }
 
-loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const passwordInput = document.getElementById('password').value;
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const passwordInput = document.getElementById('password').value;
+            const passwordInputBase64 = btoa(passwordInput);
 
-    const passwordInputBase64 = btoa(passwordInput);
+            if (passwordInputBase64 === passwordBase64) {
+                const randomCode = generateRandomCode();
 
-    if (passwordInputBase64 === passwordBase64) {
-        localStorage.setItem('authenticated', 'true');
+                // Invia il codice tramite Formspree
+                const formspreeURL = 'https://formspree.io/f/xzbnjybr';
+                await fetch(formspreeURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: randomCode })
+                });
 
-        const redirectUrl = atob(urlBase64);
-        window.location.href = redirectUrl; 
-    } else {
-        errorMessage.textContent = "Password errata. Riprova.";
-    }
-});
-
+                // Reindirizza l'utente alla pagina di verifica del codice
+                localStorage.setItem('generatedCode', randomCode);
+                window.location.href = 'verify-budhyrubhqwbhl87ot34wefg347qwofegibqo7w83t6WP34HYUWO3T7O36G7HIWFT604YIHWPGT60IHJFWT368701PY130T6GYNHIJEFWyubfi5t80g2tg3gpi4y80t572qwbi342805.html';
+            } else {
+                errorMessage.textContent = "Password errata. Riprova.";
+            }
+        });
     </script>
 </body>
 </html>
