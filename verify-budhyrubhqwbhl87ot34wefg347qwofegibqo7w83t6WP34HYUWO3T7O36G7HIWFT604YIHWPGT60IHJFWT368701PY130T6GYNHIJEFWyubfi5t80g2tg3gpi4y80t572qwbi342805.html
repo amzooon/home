@@ -13,11 +13,23 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-image: url('sfondi/1.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background: linear-gradient(135deg, #001f3f, #007bff, #001f3f);
+            background-size: 600% 600%;
+            animation: gradient-animation 10s ease infinite;
         }
+
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
         .verify-container {
             max-width: 400px;
             width: 100%;
@@ -27,12 +39,14 @@
             text-align: center;
             border-radius: 15px;
         }
+
         input {
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
         button {
             padding: 10px;
             border: none;
@@ -41,15 +55,51 @@
             color: white;
             cursor: pointer;
         }
+
         .error {
             color: red;
             margin-top: 10px;
+        }
+
+        /* Stile neon arcobaleno per la scritta */
+        .neon-text {
+            color: white;
+            text-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow, 0 0 40px green, 0 0 50px blue, 0 0 60px indigo, 0 0 70px violet, 0 0 80px red, 0 0 90px orange;
+            animation: rainbow-animation 5s linear infinite;
+        }
+
+        @keyframes rainbow-animation {
+            0% {
+                text-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow, 0 0 40px green, 0 0 50px blue, 0 0 60px indigo, 0 0 70px violet, 0 0 80px red, 0 0 90px orange;
+            }
+            14.3% {
+                text-shadow: 0 0 10px orange, 0 0 20px yellow, 0 0 30px green, 0 0 40px blue, 0 0 50px indigo, 0 0 60px violet, 0 0 70px red, 0 0 80px orange, 0 0 90px yellow;
+            }
+            28.6% {
+                text-shadow: 0 0 10px yellow, 0 0 20px green, 0 0 30px blue, 0 0 40px indigo, 0 0 50px violet, 0 0 60px red, 0 0 70px orange, 0 0 80px yellow, 0 0 90px green;
+            }
+            42.9% {
+                text-shadow: 0 0 10px green, 0 0 20px blue, 0 0 30px indigo, 0 0 40px violet, 0 0 50px red, 0 0 60px orange, 0 0 70px yellow, 0 0 80px green, 0 0 90px blue;
+            }
+            57.2% {
+                text-shadow: 0 0 10px blue, 0 0 20px indigo, 0 0 30px violet, 0 0 40px red, 0 0 50px orange, 0 0 60px yellow, 0 0 70px green, 0 0 80px blue, 0 0 90px indigo;
+            }
+            71.5% {
+                text-shadow: 0 0 10px indigo, 0 0 20px violet, 0 0 30px red, 0 0 40px orange, 0 0 50px yellow, 0 0 60px green, 0 0 70px blue, 0 0 80px indigo, 0 0 90px violet;
+            }
+            85.8% {
+                text-shadow: 0 0 10px violet, 0 0 20px red, 0 0 30px orange, 0 0 40px yellow, 0 0 50px green, 0 0 60px blue, 0 0 70px indigo, 0 0 80px violet, 0 0 90px red;
+            }
+            100% {
+                text-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow, 0 0 40px green, 0 0 50px blue, 0 0 60px indigo, 0 0 70px violet, 0 0 80px red, 0 0 90px orange;
+            }
         }
     </style>
 </head>
 <body>
     <div class="verify-container">
-        <h1>Verifica Codice</h1>
+        <!-- Applicazione della classe neon-text all'h1 -->
+        <h1 class="neon-text">Verifica Codice</h1>
         <form id="verifyForm">
             <input type="text" id="verificationCode" placeholder="Inserisci il codice ricevuto" required>
             <button type="submit">Verifica</button>
@@ -62,12 +112,17 @@
         const errorMessage = document.getElementById('errorMessage');
         const correctCode = localStorage.getItem('generatedCode');
 
+        // L'URL protetto criptato in Base64
+        const protectedUrlBase64 = "ZHJpdmUtbWFpbi10ZnJjZ3RjZnJndGNmcmdkZXJkdXR2b2doamh1NTZlcnN4eTg3Z282NTE0ODlGREVSa3RnaDY1NDg5emd0eWdmdGNyYmZ0ZGZqaHZudmhndHJzZXJ5ZXJ5NjVyNzl5MDl1w7hvw7hveXVnbMOpw7Zqw6BpaHV5ZnR5dHJ0aGp5Z3l0Ni5odG1s";
+
         verifyForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const userCode = document.getElementById('verificationCode').value;
 
             if (userCode === correctCode) {
-                window.location.href = 'drive-main-tfrcgtcfrgtcfrgderdutvoghjhu56ersxy87go651489FDERktgh65489zgtygftcrbftdfjhvnvhgtrseryery65r79y09uìoìioyuglòjàjàoihuyftytrthjygyt6.html'; // La pagina protetta a cui vuoi accedere
+                // Decodifica l'URL protetto in Base64
+                const redirectUrl = atob(protectedUrlBase64);
+                window.location.href = redirectUrl;
             } else {
                 errorMessage.textContent = "Codice errato. Riprova.";
             }
