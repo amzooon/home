@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifica Codice - My Drive</title>
+    <link rel="icon" type="image/png" href="ico/Login.png">
+    <title>Login - My Drive</title>
     <style>
-        /* Stile della pagina di verifica */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -17,8 +17,10 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            position: relative;
         }
-        .verify-container {
+
+        .login-container {
             max-width: 400px;
             width: 100%;
             padding: 20px;
@@ -27,12 +29,44 @@
             text-align: center;
             border-radius: 15px;
         }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 40px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .back-arrow:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #d4d1d1;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
         input {
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
         button {
             padding: 10px;
             border: none;
@@ -41,6 +75,11 @@
             color: white;
             cursor: pointer;
         }
+
+        button:hover {
+            background: #0056b3;
+        }
+
         .error {
             color: red;
             margin-top: 10px;
@@ -48,33 +87,60 @@
     </style>
 </head>
 <body>
-    <div class="verify-container">
-        <h1>Verifica Codice</h1>
-        <form id="verifyForm">
-            <input type="text" id="verificationCode" placeholder="Inserisci il codice ricevuto" required>
-            <button type="submit">Verifica</button>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <a href="index" class="back-arrow">&#8592;</a>
+            <input type="password" id="password" placeholder="Inserisci la password" required>
+            <button type="submit">Accedi</button>
         </form>
         <p id="errorMessage" class="error"></p>
     </div>
 
     <script>
-        const verifyForm = document.getElementById('verifyForm');
+        const loginForm = document.getElementById('loginForm');
         const errorMessage = document.getElementById('errorMessage');
-        const correctCode = localStorage.getItem('generatedCode');
 
-        // L'URL protetto criptato in Base64
-        const protectedUrlBase64 = "aHR0cHM6Ly9hbXpvb29uLmdpdGh1Yi5pby9ob21lL3ZlcmlmeS1idWRoeXJ1Ymhxd2JobDg3b3QzNHdlZmczNDdxd29mZWdpYnFvN3c4M3Q2V1AzNEhZVVdPM1Q3TzM2RzdISVdGVDYwNFlJSFdQR1Q2MElISkZXVDM2ODcwMVBZMTMwVDZHWU5ISUpFRld5dWJmaTV0ODBnMnRnM2dwaTR5ODB0NTcycXdiaTM0MjgwNS5odG1s";
+        // La password segreta in base64
+        const passwordBase64 = "Y29uc3QgcGFzc3dvcmRJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwYXNzd29yZCcpLnZhbHVl";
 
-        verifyForm.addEventListener('submit', (e) => {
+        // L'URL di reindirizzamento criptato in Base64
+        const redirectUrlBase64 = "aHR0cHM6Ly9hbXpvb24uZ2l0aHViLmlvL2hvbWUvdmVyaWZ5LWJ1ZGh5cnViaHF3YmhsODdvdDM0d2VmZzM0N3F3b2ZlZ2licW83dzgzdDdXUDM0SFlVV08zVDdPMzZHN0hJV0ZUNTYwNFlJV0dUNjBJSEpGV1QzNjg3MDFQWTEzMFRHNllOSElKRUZXeXViZmk1dDgwZzJ0ZzNncGk0eTgwVDU3MnF3YmkzNDI4MDUuaHRtbA==";
+
+        // Funzione per generare un codice casuale di 10 lettere
+        function generateRandomCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let code = '';
+            for (let i = 0; i < 10; i++) {
+                code += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return code;
+        }
+
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const userCode = document.getElementById('verificationCode').value;
+            const passwordInput = document.getElementById('password').value;
+            const passwordInputBase64 = btoa(passwordInput);
 
-            if (userCode === correctCode) {
-                // Decodifica l'URL protetto in Base64
-                const redirectUrl = atob(protectedUrlBase64);
+            if (passwordInputBase64 === passwordBase64) {
+                const randomCode = generateRandomCode();
+
+                // Invia il codice tramite Formspree
+                const formspreeURL = 'https://formspree.io/f/xzbnjybr';
+                await fetch(formspreeURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: randomCode })
+                });
+
+                // Reindirizza l'utente alla pagina di verifica del codice
+                localStorage.setItem('generatedCode', randomCode);
+                
+                // Decodifica l'URL di reindirizzamento
+                const redirectUrl = atob(redirectUrlBase64);
                 window.location.href = redirectUrl;
             } else {
-                errorMessage.textContent = "Codice errato. Riprova.";
+                errorMessage.textContent = "Password errata. Riprova.";
             }
         });
     </script>
