@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="ico/Login.png">
     <title>Login - My Drive</title>
     <style>
+        /* Stili esistenti */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -28,7 +29,6 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             border-radius: 15px;
-
         }
 
         .back-arrow {
@@ -38,7 +38,7 @@
             text-decoration: none;
             color: #ffffff;
             font-size: 40px;
-            width: 50px;  /* Increase the width and height for better centering */
+            width: 50px;
             height: 50px;
             display: flex;
             justify-content: center;
@@ -66,19 +66,35 @@
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        input.show {
+            opacity: 1;
+            transform: scale(1);
         }
 
         button {
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            background: #007BFF;
-            color: white;
-            cursor: pointer;
-        }
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    background: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    font-size: 16px; /* Aggiungi questa riga per aumentare la dimensione del testo */
+}
+
 
         button:hover {
             background: #0056b3;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: scale(0.9);
         }
 
         .error {
@@ -91,38 +107,78 @@
     <a href="index" class="back-arrow">&#8592;</a>
     <div class="login-container">
         <h1>Login</h1>
-        <form id="loginForm">
-            <input type="password" id="password" placeholder="Inserisci la password" required>
-            <button type="submit">Accedi</button>
+        <form id="verificationForm">
+            <!-- Fase 1: Solo il pulsante per inviare il codice di verifica -->
+            <button type="button" id="sendCodeBtn">Invia codice di verifica</button>
+
+            <!-- Fase 2: Campo di input per inserire il codice di verifica e pulsante per confermare -->
+            <input type="text" id="verificationCode" placeholder="Inserisci il codice di verifica" required style="display: none;">
+            <button type="submit" id="verifyBtn" style="display: none;">Accedi</button>
         </form>
         <p id="errorMessage" class="error"></p>
     </div>
+
     <script>
-        const loginForm = document.getElementById('loginForm');
-const errorMessage = document.getElementById('errorMessage');
+        const verificationForm = document.getElementById('verificationForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const sendCodeBtn = document.getElementById('sendCodeBtn');
+        const verificationCodeInput = document.getElementById('verificationCode');
+        const verifyBtn = document.getElementById('verifyBtn');
 
-// La password segreta 
-const passwordBase64 = "Y29uc3QgcGFzc3dvcmRJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwYXNzd29yZCcpLnZhbHVl"; 
+        // URL a cui reindirizzare l'utente
+        const urlBase64 = "aHR0cHM6Ly9hbXpvb29uLmdpdGh1Yi5pby9ob21lL2RyaXZlLW1haW4tdGZyY2d0Y2ZyZ3RjZnJnZGVyZHV0dm9naGpodTU2ZXJzeHk4N2dvNjUxNDg5RkRFUmt0Z2g2NTQ4OXpndHlnZnRjcmJmdGRmamh2bnZoZ3Ryc2VyeWVyeTY1cjc5eTA5dSVDMyVBQ28lQzMlQUNpb3l1Z2wlQzMlQjJqJUMzJUEwaiVDMyVBMG9paHV5ZnR5dHJ0aGp5Z3l0Ni5odG1s";
 
-// L'URL a cui reindirizzare l'utente
-const urlBase64 = "aHR0cHM6Ly9hbXpvb29uLmdpdGh1Yi5pby9ob21lL2RyaXZlLW1haW4tdGZyY2d0Y2ZyZ3RjZnJnZGVyZHV0dm9naGpodTU2ZXJzeHk4N2dvNjUxNDg5RkRFUmt0Z2g2NTQ4OXpndHlnZnRjcmJmdGRmamh2bnZoZ3Ryc2VyeWVyeTY1cjc5eTA5dSVDMyVBQ28lQzMlQUNpb3l1Z2wlQzMlQjJqJUMzJUEwaiVDMyVBMG9paHV5ZnR5dHJ0aGp5Z3l0Ni5odG1s"; 
+        let generatedCode = '';
 
-loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const passwordInput = document.getElementById('password').value;
+        // Funzione per generare un codice casuale di 20 caratteri
+        function generateVerificationCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let code = '';
+            for (let i = 0; i < 20; i++) {
+                code += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return code;
+        }
 
-    const passwordInputBase64 = btoa(passwordInput);
+        // Invio del codice di verifica tramite Formspree
+        sendCodeBtn.addEventListener('click', () => {
+            generatedCode = generateVerificationCode();
 
-    if (passwordInputBase64 === passwordBase64) {
-        localStorage.setItem('authenticated', 'true');
+            fetch("https://formspree.io/xzbnjybr", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ codice: generatedCode })
+            }).then(response => {
+                if (response.ok) {
+                    // Effetto di transizione per mostrare il campo codice e il bottone "Accedi"
+                    sendCodeBtn.classList.add('fade-out');
+                    setTimeout(() => {
+                        sendCodeBtn.style.display = 'none';
+                        verificationCodeInput.style.display = 'block';
+                        verifyBtn.style.display = 'block';
+                        verificationCodeInput.classList.add('show');
+                        verifyBtn.classList.add('show');
+                    }, 500);
+                } else {
+                    errorMessage.textContent = "Errore nell'invio del codice. Riprova.";
+                }
+            }).catch(error => {
+                errorMessage.textContent = "Errore di connessione. Riprova.";
+            });
+        });
 
-        const redirectUrl = atob(urlBase64);
-        window.location.href = redirectUrl; 
-    } else {
-        errorMessage.textContent = "Password errata. Riprova.";
-    }
-});
+        // Verifica del codice inserito dall'utente
+        verificationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userCode = verificationCodeInput.value;
 
+            if (userCode === generatedCode) {
+                const redirectUrl = atob(urlBase64);
+                window.location.href = redirectUrl;
+            } else {
+                errorMessage.textContent = "Codice di verifica errato. Riprova.";
+            }
+        });
     </script>
 </body>
 </html>
