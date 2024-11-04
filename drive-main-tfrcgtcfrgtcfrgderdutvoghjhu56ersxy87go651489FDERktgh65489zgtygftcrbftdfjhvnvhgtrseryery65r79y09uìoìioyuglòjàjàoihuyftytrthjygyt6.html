@@ -117,31 +117,47 @@
     object-fit: contain; /* Assicura che i video siano visibili interamente */
 }
 
-
-
-
 .download-link {
     position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
+    bottom: 10px; /* Spazio dal fondo del genitore */
+    left: 50%; /* Centrato orizzontalmente */
+    transform: translate(-50%, 10px) scale(0); /* Centrare e scala iniziale a zero */
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
     color: white;
     padding: 8px 12px;
     text-decoration: none;
-    display: none;
-    transition: opacity 0.3s, transform 0.3s;
+    opacity: 0; /* Inizialmente invisibile */
+    transition: opacity 0.5s ease, transform 0.5s ease;
     border-radius: 4px;
+    overflow: hidden; /* Nasconde l'animazione fuori dai bordi */
+    z-index: 1; /* Testo sopra il pseudo-elemento */
 }
 
 .grid-item:hover .download-link {
-    display: block;
+    opacity: 1; /* Rende visibile */
+    transform: translate(-50%, -10px) scale(1); /* Espande verso l'esterno */
+}
+
+.download-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0; /* Inizia da zero */
+    height: 100%; /* Copre l'altezza del pulsante */
+    background: rgba(72, 255, 218, 0.8); /* Colore verde acqua chiaro */
+    transition: width 0.5s ease; /* Transizione per l'effetto di riempimento */
+    z-index: -1; /* Dietro al testo */
+}
+
+.download-link:hover::before {
+    width: 100%; /* Si espande al 100% al passaggio del mouse */
 }
 
 .download-link:hover {
-            opacity: 0.9;
-            transform: translate(-50%, -3px);
-        }
+    color: white; /* Mantiene il testo visibile */
+}
+
 
 
 
