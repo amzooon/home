@@ -14,7 +14,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-image: url('sfondi/1.jpg');
+            background-image: url('sfondi/drive1.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -32,25 +32,28 @@
         }
 
         .back-arrow {
-            position: absolute;
-            top: 20px;
-            left: 25px;
-            text-decoration: none;
-            color: #ffffff;
-            font-size: 40px;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 40px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25%;
+    background: rgba(0, 0, 0, 0.275);
+    backdrop-filter: blur(6px); /* Sfocatura leggera */
+}
 
-        .back-arrow:hover {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: #d4d1d1;
-        }
+.back-arrow:hover {
+    background: rgba(0, 0, 0, 0.5); /* Mantieni lo sfondo invariato al passaggio del mouse */
+    color: #d4d1d1;
+    backdrop-filter: blur(6px); /* Mantenere la sfocatura invariata */
+}
+
 
         h1 {
             margin-bottom: 20px;
