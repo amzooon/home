@@ -252,7 +252,7 @@ const mediaFiles = [
     { type: 'image', src: 'img/fiori/17.jpg', name: 'image fiori 17.jpg' },
     { type: 'image', src: 'img/fiori/18.jpg', name: 'image fiori 18.jpg' },
     { type: 'image', src: 'img/fiori/19.jpg', name: 'image fiori 19.jpg' },*/
-]    
+];
 
 const mediaGrid = document.getElementById('mediaGrid');
 const modal = document.getElementById('myModal');
@@ -262,106 +262,6 @@ const downloadButton = document.getElementById('downloadButton');
 const closeSpan = document.getElementsByClassName('close')[0];
 
 mediaFiles.forEach(file => {
-if (file.type === 'divider') {
-const hr = document.createElement('hr');
-hr.style.border = '0';
-hr.style.height = '15px';
-hr.style.backgroundColor = '#000000bb';
-hr.style.width = '100%';
-hr.style.margin = '30px 0'; // Spazio sopra e sotto il divisore
-hr.style.gridColumn = '1 / -1'; // Fa sì che l'elemento prenda tutta la larghezza
-mediaGrid.appendChild(hr);
-return; // Salta il resto del codice poiché non serve aggiungere altro per il divisore
-}
-
-if (file.type === 'sectionTitle') {
-const sectionTitle = document.createElement('div');
-sectionTitle.textContent = file.text;
-sectionTitle.className = 'section-title'; // Usa la classe CSS definita
-mediaGrid.appendChild(sectionTitle);
-return; // Salta il resto del codice poiché non serve aggiungere altro per il titolo
-}
-
-const gridItem = document.createElement('div');
-gridItem.classList.add('grid-item');
-
-if (file.type === 'image') {
-const img = document.createElement('img');
-img.src = file.src;
-img.alt = file.name;
-img.onclick = function() {
-    modal.style.display = "block";
-    modalImg.src = this.src;
-    downloadButton.href = this.src;
-
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    const maxModalWidth = windowWidth * 0.9;
-    const maxModalHeight = windowHeight * 0.9;
-
-    const imgAspectRatio = this.naturalWidth / this.naturalHeight;
-    const modalAspectRatio = maxModalWidth / maxModalHeight;
-
-    if (imgAspectRatio > modalAspectRatio) {
-        modalImg.style.width = `${maxModalWidth}px`;
-        modalImg.style.height = `${maxModalWidth / imgAspectRatio}px`;
-    } else {
-        modalImg.style.height = `${maxModalHeight}px`;
-        modalImg.style.width = `${maxModalHeight * imgAspectRatio}px`;
-    }
-
-    modalContent.style.display = "flex";
-    modalContent.style.justifyContent = "center";
-    modalContent.style.alignItems = "center";
-    modalContent.style.height = `${maxModalHeight}px`;
-    modalContent.style.marginTop = "5%";
-};
-gridItem.appendChild(img);
-} else if (file.type === 'video') {
-const video = document.createElement('video');
-video.src = file.src;
-video.controls = true;
-gridItem.appendChild(video);
-
-if (file.description) {
-    const description = document.createElement('p');
-    description.textContent = file.description;
-    description.style.color = 'white';
-    gridItem.appendChild(description);
-}
-}
-
-const downloadLink = document.createElement('a');
-downloadLink.href = file.src;
-downloadLink.download = file.name;
-downloadLink.classList.add('download-link');
-downloadLink.textContent = 'Download';
-gridItem.appendChild(downloadLink);
-
-mediaGrid.appendChild(gridItem);
-});
-
-closeSpan.onclick = function() {
-modal.style.display = "none";
-};
-
-window.onclick = function(event) {
-if (event.target == modal) {
-modal.style.display = "none";
-}
-};
-
-document.addEventListener("DOMContentLoaded", function() {
-const gridItems = document.querySelectorAll('.grid-item');
-
-gridItems.forEach(item => {
-const mediaElement = item.querySelector('img, video');
-if (mediaElement) {
-    mediaElement.addEventListener('load', () => {
-        // Eventuale logica da aggiungere se necessario quando l'immagine/video è caricato
-    });
-}
-});
     if (file.type === 'divider') {
         const hr = document.createElement('hr');
         hr.style.border = '0';
