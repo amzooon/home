@@ -7,6 +7,8 @@ body {
     margin: 0;
     background-color: #f4f4f4;
     background-image: url('sfondi/drive1.png');
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .container {
@@ -25,7 +27,7 @@ body {
     padding: 10px;
     background-color: #3498db;
     color: white;
-    border-radius: 5px;
+    border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
@@ -48,19 +50,19 @@ body {
     background-color: #3498db;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 15px;
     transition: background-color 0.3s;
     z-index: 1;
     line-height: 1;
 }
 
 .container .top-left-link {
-    left: 25px;
+    left: 30px;
     font-size: 30px;
 }
 
 .container .top-right-link {
-    right: 25px;
+    right: 30px;
     font-size: 20px;
     line-height: 30px;
 }
