@@ -56,6 +56,18 @@ const mediaFiles = [
     
     
     { type: 'divider' }, 
+
+
+    { type: 'sectionTitle', text: 'PSIDHROPOULOS:' },
+    { type: 'video', src: 'img/psidhropoulos/1.mp4', name: 'video psidhropoulos 1.mp4', description: '' },
+    { type: 'video', src: 'img/psidhropoulos/2.mp4', name: 'video psidhropoulos 2.mp4', description: '' },
+    { type: 'video', src: 'img/psidhropoulos/3.mp4', name: 'video psidhropoulos 3.mp4', description: '' },
+    { type: 'video', src: 'img/psidhropoulos/4.mp4', name: 'video psidhropoulos 4.mp4', description: '' },
+
+
+
+    { type: 'divider' }, 
+
     
     
     { type: 'sectionTitle', text: 'BRANDO:' },
