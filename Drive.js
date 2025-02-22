@@ -183,6 +183,8 @@ const mediaFiles = [
     { type: 'image', src: 'img/best/2.jpg', name: 'image best 2.jpg' },
     { type: 'image', src: 'img/best/3.jpg', name: 'image best 3.jpg' },
     { type: 'image', src: 'img/best/4.jpg', name: 'image best 4.jpg' },
+    { type: 'image', src: 'img/best/5.jpg', name: 'image best 5.jpg' },
+    { type: 'image', src: 'img/best/6.jpg', name: 'image best 6.jpg' },
     { type: 'video', src: 'img/best/1.mp4', name: 'video1.mp4', description: '' },
     { type: 'video', src: 'img/best/2.mp4', name: 'video2.mp4', description: '' },
     { type: 'video', src: 'img/best/3.mp4', name: 'video3.mp4', description: '' },
