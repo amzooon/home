@@ -247,6 +247,7 @@ const mediaFiles = [
     { type: 'video', src: 'img/altro/5.mp4', name: 'video altro 5.mp4', description: '' },
 
 
+
     /*{ type: 'divider' }, 
 
 
@@ -286,18 +287,18 @@ mediaFiles.forEach(file => {
         hr.style.height = '15px';
         hr.style.backgroundColor = '#000000bb';
         hr.style.width = '100%';
-        hr.style.margin = '30px 0'; // Spazio sopra e sotto il divisore
-        hr.style.gridColumn = '1 / -1'; // Fa sì che l'elemento prenda tutta la larghezza
+        hr.style.margin = '30px 0';
+        hr.style.gridColumn = '1 / -1';
         mediaGrid.appendChild(hr);
-        return; // Salta il resto del codice poiché non serve aggiungere altro per il divisore
+        return;
     }
 
     if (file.type === 'sectionTitle') {
         const sectionTitle = document.createElement('div');
         sectionTitle.textContent = file.text;
-        sectionTitle.className = 'section-title'; // Usa la classe CSS definita
+        sectionTitle.className = 'section-title';
         mediaGrid.appendChild(sectionTitle);
-        return; // Salta il resto del codice poiché non serve aggiungere altro per il titolo
+        return;
     }
 
     const gridItem = document.createElement('div');
@@ -372,12 +373,9 @@ window.onclick = function(event) {
 document.addEventListener("DOMContentLoaded", function() {
     const gridItems = document.querySelectorAll('.grid-item');
 
-    gridItems.forEach(item => {
-        const mediaElement = item.querySelector('img, video');
-        if (mediaElement) {
-            mediaElement.addEventListener('load', () => {
-                // Eventuale logica da aggiungere se necessario quando l'immagine/video è caricato
-            });
-        }
+    gridItems.forEach((item, index) => {
+        setTimeout(() => {
+            item.classList.add('show'); // Aggiungi la classe che attiva l'animazione
+        }, 25 * index); // Ritardo per animare le immagini in sequenza
     });
 });

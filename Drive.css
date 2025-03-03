@@ -202,9 +202,16 @@ color: white; /* Mantiene il testo visibile */
     height: 100%;
     margin-top: 5%;
 }
+
 .grid-item {
-/* Qualsiasi altra regola CSS per il layout degli elementi della griglia */
-position: relative;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.grid-item.show {
+    opacity: 1;
+    transform: scale(1);
 }
 
 hr {
