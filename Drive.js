@@ -175,6 +175,11 @@ const mediaFiles = [
     { type: 'video', src: 'img/video/17.mp4', name: 'video17.mp4', description: '' },
     { type: 'video', src: 'img/video/18.mp4', name: 'video18.mp4', description: '' },
     { type: 'video', src: 'img/video/19.mp4', name: 'video19.mp4', description: '' },
+    { type: 'video', src: 'img/video/20.mp4', name: 'video20.mp4', description: '' },
+    { type: 'video', src: 'img/video/21.mp4', name: 'video21.mp4', description: '' },
+    { type: 'video', src: 'img/video/22.mp4', name: 'video22.mp4', description: '' },
+    { type: 'video', src: 'img/video/23.mp4', name: 'video23.mp4', description: '' },
+    { type: 'video', src: 'img/video/24.mp4', name: 'video24.mp4', description: '' },
     
     
     { type: 'divider' }, 
@@ -240,6 +245,9 @@ const mediaFiles = [
     { type: 'image', src: 'img/altro/25.jpg', name: 'image altro 25.jpg' },
     { type: 'image', src: 'img/altro/26.jpg', name: 'image altro 26.jpg' },
     { type: 'image', src: 'img/altro/27.jpg', name: 'image altro 27.jpg' },
+    { type: 'image', src: 'img/altro/28.jpg', name: 'image altro 28.jpg' },
+    { type: 'image', src: 'img/altro/29.jpg', name: 'image altro 29.jpg' },
+    { type: 'image', src: 'img/altro/30.jpg', name: 'image altro 30.jpg' },
     { type: 'video', src: 'img/altro/1.mp4', name: 'video altro 1.mp4', description: '' },
     { type: 'video', src: 'img/altro/2.mp4', name: 'video altro 2.mp4', description: '' },
     { type: 'video', src: 'img/altro/3.mp4', name: 'video altro 3.mp4', description: '' },
