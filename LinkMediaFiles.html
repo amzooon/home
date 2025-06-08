@@ -2,8 +2,9 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <title>Galleria Link Preview Avanzata</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="ico/LinkIcon.png" />
+  <title>Links</title>
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -31,17 +32,18 @@
       overflow: hidden;
       transition: transform 0.3s ease;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+      cursor: pointer; /* indica che è cliccabile */
     }
 
     .card:hover {
       transform: scale(1.02);
-      cursor: pointer;
     }
 
     .card img {
       width: 100%;
       height: 180px;
       object-fit: cover;
+      pointer-events: none; /* fa passare il click al card */
     }
 
     .card-title {
@@ -51,46 +53,11 @@
       color: #ddd;
       text-align: center;
     }
-
-    /* MODAL */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      padding-top: 60px;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    .modal-content {
-      display: block;
-      margin: auto;
-      max-width: 90%;
-      max-height: 80%;
-    }
-
-    .close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 40px;
-      color: white;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
-  <h1>🎞️ Galleria Link Preview</h1>
+  <h1>🎞️ Galleria Link</h1>
   <div class="grid" id="mediaGrid"></div>
-
-  <!-- Modal -->
-  <div id="modal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="modalImg" />
-  </div>
 
   <script>
     // Lista link
@@ -152,10 +119,6 @@
       const img = document.createElement("img");
       img.src = thumbnail;
       img.alt = title;
-      img.onclick = (e) => {
-        e.stopPropagation();
-        openModal(thumbnail);
-      };
 
       const caption = document.createElement("div");
       caption.className = "card-title";
@@ -163,6 +126,8 @@
 
       card.appendChild(img);
       card.appendChild(caption);
+
+      // Apri il link cliccando ovunque nella card
       card.onclick = () => window.open(url, "_blank");
 
       grid.appendChild(card);
@@ -181,21 +146,6 @@
         await loadNextBatch();
       }
     }
-
-    // Modal
-    const modal = document.getElementById("modal");
-    const modalImg = document.getElementById("modalImg");
-    const closeBtn = document.querySelector(".close");
-
-    function openModal(src) {
-      modal.style.display = "block";
-      modalImg.src = src;
-    }
-
-    closeBtn.onclick = () => (modal.style.display = "none");
-    window.onclick = (e) => {
-      if (e.target === modal) modal.style.display = "none";
-    };
 
     // Scroll infinito
     window.addEventListener("scroll", () => {
