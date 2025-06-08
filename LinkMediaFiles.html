@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Galleria Link Preview Avanzata</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #121212;
+      margin: 0;
+      padding: 2rem;
+      color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #1f1f1f;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-title {
+      padding: 8px;
+      font-size: 0.85rem;
+      background: #1f1f1f;
+      color: #ddd;
+      text-align: center;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content {
+      display: block;
+      margin: auto;
+      max-width: 90%;
+      max-height: 80%;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎞️ Galleria Link Preview</h1>
+  <div class="grid" id="mediaGrid"></div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImg" />
+  </div>
+
+  <script>
+    // Lista link
+    const links = [
+
+      'https://ita.xhamster.com/videos/big-cock-destroys-my-ass-xhAVtT9',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716',
+    ];
+
+    let loaded = 0;
+    const BATCH_SIZE = 5;
+    const grid = document.getElementById("mediaGrid");
+
+    async function fetchThumbnail(url) {
+      const api = "https://api.microlink.io/?url=" + encodeURIComponent(url);
+      try {
+        const res = await fetch(api);
+        const json = await res.json();
+        return {
+          thumbnail:
+            json.data.image?.url || "https://via.placeholder.com/400x300?text=No+preview",
+          title: json.data.title || url,
+          url,
+        };
+      } catch {
+        return {
+          thumbnail: "https://via.placeholder.com/400x300?text=Errore",
+          title: url,
+          url,
+        };
+      }
+    }
+
+    function addCard(thumbnail, title, url) {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const img = document.createElement("img");
+      img.src = thumbnail;
+      img.alt = title;
+      img.onclick = (e) => {
+        e.stopPropagation();
+        openModal(thumbnail);
+      };
+
+      const caption = document.createElement("div");
+      caption.className = "card-title";
+      caption.textContent = title;
+
+      card.appendChild(img);
+      card.appendChild(caption);
+      card.onclick = () => window.open(url, "_blank");
+
+      grid.appendChild(card);
+    }
+
+    async function loadNextBatch() {
+      const end = Math.min(loaded + BATCH_SIZE, links.length);
+      for (let i = loaded; i < end; i++) {
+        const { thumbnail, title, url } = await fetchThumbnail(links[i]);
+        addCard(thumbnail, title, url);
+      }
+      loaded = end;
+
+      // Se la pagina è troppo corta e ci sono ancora link da caricare, carica altro
+      if (document.body.scrollHeight <= window.innerHeight && loaded < links.length) {
+        await loadNextBatch();
+      }
+    }
+
+    // Modal
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modalImg");
+    const closeBtn = document.querySelector(".close");
+
+    function openModal(src) {
+      modal.style.display = "block";
+      modalImg.src = src;
+    }
+
+    closeBtn.onclick = () => (modal.style.display = "none");
+    window.onclick = (e) => {
+      if (e.target === modal) modal.style.display = "none";
+    };
+
+    // Scroll infinito
+    window.addEventListener("scroll", () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        if (loaded < links.length) loadNextBatch();
+      }
+    });
+
+    loadNextBatch();
+  </script>
+</body>
+</html>
