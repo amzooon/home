@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" href="ico/LinkIcon.png" />
   <title>Links</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -12,8 +13,14 @@
       margin: 0;
       padding: 2rem;
       color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      min-height: 100vh;
     }
 
+    /* Freccia in alto a sinistra */
     .back-arrow {
       position: absolute;
       top: 1rem;
@@ -30,24 +37,72 @@
     }
 
     h1 {
-      text-align: center;
       font-size: 2rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      width: 100%;
     }
 
+    /* Contenitore bottoni in alto, sotto la freccia */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 600px;
+      padding-left: 3rem; /* per non sovrapporsi alla freccia */
+    }
+
+    button {
+      background: #1f1f1f;
+      border: 2px solid #444;
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+      flex: 1;
+      max-width: 150px;
+    }
+
+    button:hover {
+      background: #333;
+      border-color: #fff;
+    }
+
+    button.active {
+      background: #fff;
+      color: #121212;
+      border-color: #fff;
+      font-weight: 700;
+    }
+
+    /* Griglie */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 20px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    /* Nascondi griglia non attiva */
+    .hidden {
+      display: none;
     }
 
     .card {
       background: #1f1f1f;
       border-radius: 12px;
       overflow: hidden;
-      transition: transform 0.3s ease;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s ease;
     }
 
     .card:hover {
@@ -58,7 +113,7 @@
       width: 100%;
       height: 180px;
       object-fit: cover;
-      pointer-events: none;
+      display: block;
     }
 
     .card-title {
@@ -67,87 +122,142 @@
       background: #1f1f1f;
       color: #ddd;
       text-align: center;
+      width: 100%;
+    }
+
+    .card .spinner {
+      width: 40px;
+      height: 40px;
+      margin: 60px auto;
+      border: 4px solid #333;
+      border-top: 4px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
 <body>
   <a href="https://amzooon.com" class="back-arrow">←</a>
   <h1>🎞️ Galleria Link</h1>
-  <div class="grid" id="mediaGrid"></div>
+
+  <div class="button-container">
+    <button id="btn1" class="active">Tutti</button>
+    <button id="btn2">Instagram</button>
+  </div>
+
+  <div class="grid" id="grid1"></div>
+  <div class="grid hidden" id="grid2"></div>
 
   <script>
-    const links = [
+    const Tutti = [
       'https://it.pornhub.com/view_video.php?viewkey=ph62ffa1e319085',
       'https://it.pornhub.com/view_video.php?viewkey=ph6157dd1a5ef77',
       'https://it.pornhub.com/view_video.php?viewkey=6566454ec6a8b',
       'https://it.pornhub.com/view_video.php?viewkey=ph588a75c312b7a',
-      'https://ita.xhamster.com/videos/big-cock-destroys-my-ass-xhAVtT9',
-      'https://it.pornhub.com/view_video.php?viewkey=64455a4f76716'
     ];
 
-    let loaded = 0;
-    const BATCH_SIZE = 5;
-    const grid = document.getElementById("mediaGrid");
+    const Instagram = [
+      'https://www.instagram.com/p/DIFlGMysNwJ/?igsh=anR1MWZ4YnAwNzZk',
+      'https://www.instagram.com/reel/DBWcqAxsOhT/?igsh=MTV4aTQzN3kzMndrdw==',
+    ];
+
+    function createLoadingCard() {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const spinner = document.createElement('div');
+      spinner.className = 'spinner';
+
+      const caption = document.createElement('div');
+      caption.className = 'card-title';
+      caption.textContent = 'Caricamento...';
+
+      card.appendChild(spinner);
+      card.appendChild(caption);
+      return card;
+    }
 
     async function fetchThumbnail(url) {
-      const api = "https://api.microlink.io/?url=" + encodeURIComponent(url);
+      const api = 'https://api.microlink.io/?url=' + encodeURIComponent(url);
       try {
         const res = await fetch(api);
         const json = await res.json();
         return {
           thumbnail:
-            json.data.image?.url || "https://via.placeholder.com/400x300?text=No+preview",
-          title: json.data.title || url,
+            json.data?.image?.url || 'https://via.placeholder.com/400x300?text=No+preview',
+          title: json.data?.title || url,
           url,
         };
       } catch {
         return {
-          thumbnail: "https://via.placeholder.com/400x300?text=Errore",
+          thumbnail: 'https://via.placeholder.com/400x300?text=Errore',
           title: url,
           url,
         };
       }
     }
 
-    function addCard(thumbnail, title, url) {
-      const card = document.createElement("div");
-      card.className = "card";
+    function updateCard(card, thumbnail, title, url) {
+      card.innerHTML = '';
 
-      const img = document.createElement("img");
+      const img = document.createElement('img');
       img.src = thumbnail;
       img.alt = title;
+      img.loading = 'lazy';
 
-      const caption = document.createElement("div");
-      caption.className = "card-title";
+      const caption = document.createElement('div');
+      caption.className = 'card-title';
       caption.textContent = title;
 
       card.appendChild(img);
       card.appendChild(caption);
-      card.onclick = () => window.open(url, "_blank");
-
-      grid.appendChild(card);
+      card.onclick = () => window.open(url, '_blank', 'noopener');
     }
 
-    async function loadNextBatch() {
-      const end = Math.min(loaded + BATCH_SIZE, links.length);
-      for (let i = loaded; i < end; i++) {
-        const { thumbnail, title, url } = await fetchThumbnail(links[i]);
-        addCard(thumbnail, title, url);
-      }
-      loaded = end;
+    async function loadLinks(links, gridElement) {
+      for (const link of links) {
+        const loadingCard = createLoadingCard();
+        gridElement.appendChild(loadingCard);
 
-      if (document.body.scrollHeight <= window.innerHeight && loaded < links.length) {
-        await loadNextBatch();
+        const { thumbnail, title, url } = await fetchThumbnail(link);
+        updateCard(loadingCard, thumbnail, title, url);
       }
     }
 
-    window.addEventListener("scroll", () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-        if (loaded < links.length) loadNextBatch();
-      }
+    const grid1 = document.getElementById('grid1');
+    const grid2 = document.getElementById('grid2');
+
+    loadLinks(Tutti, grid1);
+    loadLinks(Instagram, grid2);
+
+    const btn1 = document.getElementById('btn1');
+    const btn2 = document.getElementById('btn2');
+
+    btn1.addEventListener('click', () => {
+      grid1.classList.remove('hidden');
+      grid2.classList.add('hidden');
+
+      btn1.classList.add('active');
+      btn2.classList.remove('active');
     });
 
-    loadNextBatch();
+    btn2.addEventListener('click', () => {
+      grid2.classList.remove('hidden');
+      grid1.classList.add('hidden');
+
+      btn2.classList.add('active');
+      btn1.classList.remove('active');
+    });
   </script>
 </body>
 </html>
