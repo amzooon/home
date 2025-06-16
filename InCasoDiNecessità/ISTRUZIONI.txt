@@ -1,0 +1,3 @@
+NEL CASO FORMSPREE NON DOVESSE FUNZIONARE, SOSTITUIRE I FILE VECCHI CON QUESTI NUOVI E VICEVERSA.
+
+Questi due documenti .js contengono il meccanismo per l'invio del codice di verifica per entrare rispettivamente nel drive e nel link utilizzano un provider diverso da formspree per l'invio delle mail.
