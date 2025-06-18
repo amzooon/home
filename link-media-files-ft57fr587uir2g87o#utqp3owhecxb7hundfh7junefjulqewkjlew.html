@@ -20,7 +20,6 @@
       min-height: 100vh;
     }
 
-    /* Freccia in alto a sinistra */
     .back-arrow {
       position: absolute;
       top: 1rem;
@@ -43,7 +42,6 @@
       width: 100%;
     }
 
-    /* Contenitore bottoni in alto, sotto la freccia */
     .button-container {
       display: flex;
       justify-content: center;
@@ -51,7 +49,7 @@
       margin-bottom: 2rem;
       width: 100%;
       max-width: 600px;
-      padding-left: 3rem; /* per non sovrapporsi alla freccia */
+      padding-left: 3rem;
     }
 
     button {
@@ -79,7 +77,6 @@
       font-weight: 700;
     }
 
-    /* Griglie */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -88,7 +85,6 @@
       max-width: 1000px;
     }
 
-    /* Nascondi griglia non attiva */
     .hidden {
       display: none;
     }
@@ -136,13 +132,8 @@
     }
 
     @keyframes spin {
-      0% {
-        transform: rotate(0);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
+      0% { transform: rotate(0); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -151,19 +142,25 @@
   <h1>🎞️ Galleria Link</h1>
 
   <div class="button-container">
-    <button id="btn1" class="active">Tutti</button>
-    <button id="btn2">Instagram</button>
+    <button id="btn1" class="active">Etero</button>
+    <button id="btn2">Gay</button>
+    <button id="btn3">Instagram</button>
   </div>
 
   <div class="grid" id="grid1"></div>
   <div class="grid hidden" id="grid2"></div>
+  <div class="grid hidden" id="grid3"></div>
 
   <script>
-    const Tutti = [
+    const Etero = [
       'https://it.pornhub.com/view_video.php?viewkey=ph62ffa1e319085',
       'https://it.pornhub.com/view_video.php?viewkey=ph6157dd1a5ef77',
       'https://it.pornhub.com/view_video.php?viewkey=6566454ec6a8b',
       'https://it.pornhub.com/view_video.php?viewkey=ph588a75c312b7a',
+    ];
+
+    const Gay = [
+      'https://it.pornhub.com/view_video.php?viewkey=65f5ced07cbeb#1',
     ];
 
     const Instagram = [
@@ -193,8 +190,7 @@
         const res = await fetch(api);
         const json = await res.json();
         return {
-          thumbnail:
-            json.data?.image?.url || 'https://via.placeholder.com/400x300?text=No+preview',
+          thumbnail: json.data?.image?.url || 'https://via.placeholder.com/400x300?text=No+preview',
           title: json.data?.title || url,
           url,
         };
@@ -236,27 +232,44 @@
 
     const grid1 = document.getElementById('grid1');
     const grid2 = document.getElementById('grid2');
+    const grid3 = document.getElementById('grid3');
 
-    loadLinks(Tutti, grid1);
-    loadLinks(Instagram, grid2);
+    loadLinks(Etero, grid1);
+    loadLinks(Gay, grid2);
+    loadLinks(Instagram, grid3);
 
     const btn1 = document.getElementById('btn1');
     const btn2 = document.getElementById('btn2');
+    const btn3 = document.getElementById('btn3');
 
     btn1.addEventListener('click', () => {
       grid1.classList.remove('hidden');
       grid2.classList.add('hidden');
+      grid3.classList.add('hidden');
 
       btn1.classList.add('active');
       btn2.classList.remove('active');
+      btn3.classList.remove('active');
     });
 
     btn2.addEventListener('click', () => {
       grid2.classList.remove('hidden');
       grid1.classList.add('hidden');
+      grid3.classList.add('hidden');
 
       btn2.classList.add('active');
       btn1.classList.remove('active');
+      btn3.classList.remove('active');
+    });
+
+    btn3.addEventListener('click', () => {
+      grid3.classList.remove('hidden');
+      grid1.classList.add('hidden');
+      grid2.classList.add('hidden');
+
+      btn3.classList.add('active');
+      btn1.classList.remove('active');
+      btn2.classList.remove('active');
     });
   </script>
 </body>
