@@ -167,12 +167,12 @@
       'https://it.pornhub.com/view_video.php?viewkey=6702d1c2de967',
       'https://it.pornhub.com/view_video.php?viewkey=ph637dc705e0ee5',
       'https://it.pornhub.com/view_video.php?viewkey=671796e2ad673',
+      'https://www.eporner.com/video-eYm0o5r9Xa1/clear-eyes-full-balls-can-t-lose-malik-delgaty-angel-elias-ezra-mahomes/'
     ];
 
     const Instagram = [
       'https://www.instagram.com/p/DIFlGMysNwJ/?igsh=anR1MWZ4YnAwNzZk',
       'https://www.instagram.com/reel/DBWcqAxsOhT/?igsh=MTV4aTQzN3kzMndrdw==',
-      'https://www.eporner.com/video-eYm0o5r9Xa1/clear-eyes-full-balls-can-t-lose-malik-delgaty-angel-elias-ezra-mahomes/'
     ];
 
     function createLoadingCard() {
@@ -228,14 +228,27 @@
     }
 
     async function loadLinks(links, gridElement) {
-      for (const link of links) {
-        const loadingCard = createLoadingCard();
-        gridElement.appendChild(loadingCard);
+  const maxConcurrency = 4;
+  let index = 0;
 
-        const { thumbnail, title, url } = await fetchThumbnail(link);
-        updateCard(loadingCard, thumbnail, title, url);
-      }
+  const createAndUpdateCard = async (link) => {
+    const card = createLoadingCard();
+    gridElement.appendChild(card);
+    const { thumbnail, title, url } = await fetchThumbnail(link);
+    updateCard(card, thumbnail, title, url);
+  };
+
+  const pool = Array(maxConcurrency).fill(0).map(async function worker() {
+    while (index < links.length) {
+      const currentIndex = index++;
+      const link = links[currentIndex];
+      await createAndUpdateCard(link);
     }
+  });
+
+  await Promise.all(pool);
+}
+
 
     const grid1 = document.getElementById('grid1');
     const grid2 = document.getElementById('grid2');
