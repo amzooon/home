@@ -18,31 +18,31 @@ const verificationForm = document.getElementById('verificationForm');
             return code;
         }
 
-        // Invio del codice di verifica tramite Basin
-sendCodeBtn.addEventListener('click', () => {
-    generatedCode = generateVerificationCode();
+        // Invio del codice di verifica tramite Formspree
+        sendCodeBtn.addEventListener('click', () => {
+            generatedCode = generateVerificationCode();
 
-    fetch("https://usebasin.com/f/d8f478453745", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ codice: generatedCode })
-    }).then(response => {
-        if (response.ok) {
-            sendCodeBtn.classList.add('fade-out');
-            setTimeout(() => {
-                sendCodeBtn.style.display = 'none';
-                verificationCodeInput.style.display = 'block';
-                verifyBtn.style.display = 'block';
-                verificationCodeInput.classList.add('show');
-                verifyBtn.classList.add('show');
-            }, 500);
-        } else {
-            errorMessage.textContent = "Errore nell'invio del codice. Riprova.";
-        }
-    }).catch(error => {
-        errorMessage.textContent = "Errore di connessione. Riprova.";
-    });
-});
+            fetch("https://formspree.io/xzbnjybr", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ codice: generatedCode })
+            }).then(response => {
+                if (response.ok) {
+                    sendCodeBtn.classList.add('fade-out');
+                    setTimeout(() => {
+                        sendCodeBtn.style.display = 'none';
+                        verificationCodeInput.style.display = 'block';
+                        verifyBtn.style.display = 'block';
+                        verificationCodeInput.classList.add('show');
+                        verifyBtn.classList.add('show');
+                    }, 500);
+                } else {
+                    errorMessage.textContent = "Errore nell'invio del codice. Riprova.";
+                }
+            }).catch(error => {
+                errorMessage.textContent = "Errore di connessione. Riprova.";
+            });
+        });
 
         // Funzione per animare i puntini
         function animateDots() {
