@@ -213,6 +213,11 @@ const mediaFiles = [
     { type: 'video', src: 'img/best/18.mp4', name: 'video18.mp4', description: '' },
     { type: 'video', src: 'img/best/19.mp4', name: 'video19.mp4', description: '' },
     { type: 'video', src: 'img/best/20.mp4', name: 'video20.mp4', description: '' },
+    { type: 'video', src: 'img/best/21.mp4', name: 'video21.mp4', description: '' },
+    { type: 'video', src: 'img/best/22.mp4', name: 'video22.mp4', description: '' },
+    { type: 'video', src: 'img/best/23.mp4', name: 'video23.mp4', description: '' },
+    { type: 'video', src: 'img/best/24.mp4', name: 'video24.mp4', description: '' },
+    { type: 'video', src: 'img/best/25.mp4', name: 'video25.mp4', description: '' },
     
     
     { type: 'divider' }, 
