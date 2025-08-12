@@ -218,12 +218,12 @@ const mediaFiles = [
     { type: 'video', src: 'img/best/23.mp4', name: 'video23.mp4', description: '' },
     { type: 'video', src: 'img/best/24.mp4', name: 'video24.mp4', description: '' },
     { type: 'video', src: 'img/best/25.mp4', name: 'video25.mp4', description: '' },
-    { type: 'video', src: 'img/best/26.mp4', name: 'video26.mp4', description: '' },
-    { type: 'video', src: 'img/best/27.mp4', name: 'video27.mp4', description: '' },
-    { type: 'video', src: 'img/best/28.mp4', name: 'video28.mp4', description: '' },
-    { type: 'video', src: 'img/best/29.mp4', name: 'video29.mp4', description: '' },
-    { type: 'video', src: 'img/best/30.mp4', name: 'video30.mp4', description: '' },
-    { type: 'video', src: 'img/best/31.mp4', name: 'video31.mp4', description: '' },
+    { type: 'video', src: 'img/best/26.MP4', name: 'video26.MP4', description: '' },
+    { type: 'video', src: 'img/best/27.MP4', name: 'video27.MP4', description: '' },
+    { type: 'video', src: 'img/best/28.MP4', name: 'video28.MP4', description: '' },
+    { type: 'video', src: 'img/best/29.MP4', name: 'video29.MP4', description: '' },
+    { type: 'video', src: 'img/best/30.MP4', name: 'video30.MP4', description: '' },
+    { type: 'video', src: 'img/best/31.MP4', name: 'video31.MP4', description: '' },
     
     
     { type: 'divider' }, 
