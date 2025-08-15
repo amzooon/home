@@ -224,6 +224,7 @@ const mediaFiles = [
     { type: 'video', src: 'img/best/29.mp4', name: 'video29.mp4', description: '' },
     { type: 'video', src: 'img/best/30.mp4', name: 'video30.mp4', description: '' },
     { type: 'video', src: 'img/best/31.mp4', name: 'video31.mp4', description: '' },
+    { type: 'video', src: 'img/best/32.mp4', name: 'video32.mp4', description: '' },
     
     
     { type: 'divider' }, 
