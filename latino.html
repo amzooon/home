@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Vocabolario Latino - Cicli di Ripasso</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        h2 {
+            color: #e67e22;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        #word-display {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #3498db;
+            margin: 30px 0;
+            min-height: 60px;
+        }
+        #answer-input {
+            padding: 15px;
+            width: 80%;
+            margin-bottom: 20px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 1.2em;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        #answer-input:focus {
+            border-color: #3498db;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.1s;
+            margin: 5px;
+            font-weight: 600;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        #submit-button {
+            background-color: #2ecc71;
+            color: white;
+        }
+        #submit-button:hover {
+            background-color: #27ae60;
+        }
+        #next-button {
+            background-color: #3498db;
+            color: white;
+            display: none;
+        }
+        #next-button:hover {
+            background-color: #2980b9;
+        }
+        #restart-round-button {
+            background-color: #e67e22;
+            color: white;
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+        }
+        #restart-round-button:hover {
+            background-color: #d35400;
+        }
+        #result-message {
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            min-height: 30px;
+        }
+        .correct { color: #2ecc71; }
+        .incorrect { color: #e74c3c; }
+        
+        /* Stili per il riepilogo errori */
+        #round-summary {
+            display: none;
+            margin-top: 30px;
+            background-color: #fff5f5;
+            border: 2px solid #fadbd8;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+        }
+        #round-summary h3 {
+            color: #c0392b;
+            margin-top: 0;
+            text-align: center;
+        }
+        #error-list {
+            list-style-type: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        #error-list li {
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        #progress-info {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Quiz Vocabolario Latino</h1>
+    <h2 id="round-indicator">Round 1: Test Completo</h2>
+    
+    <div id="quiz-area">
+        <div id="progress-info">Parola <span id="current-index">0</span> di <span id="total-round">0</span></div>
+        <div id="word-display"></div>
+        
+        <input type="text" id="answer-input" placeholder="Scrivi la traduzione..." autocomplete="off">
+        
+        <div>
+            <button id="submit-button">Verifica</button>
+            <button id="next-button">Prossima Parola</button>
+        </div>
+        
+        <div id="result-message"></div>
+    </div>
+
+    <div id="round-summary">
+        <h3 id="summary-title">Riepilogo Errori del Round</h3>
+        <p style="text-align:center">Ecco le parole che hai sbagliato in questo ciclo:</p>
+        <ul id="error-list"></ul>
+        <button id="restart-round-button">Inizia Ripasso Errori</button>
+    </div>
+
+</div>
+
+<script>
+    // DATI
+    const initialVocabulary = {
+        "atque": ["e"], "ac": ["e"], "omnis": ["ogni", "tutto", "tutti"], "neque": ["e non", "né"], 
+        "nec": ["e non", "né"], "iam": ["ormai", "già"], "proelium": ["battaglia"], "plurimus": ["moltissimo"], 
+        "hostis": ["nemico"], "tantus": ["tanto grande", "tanto"], "mitto": ["mandare", "inviare"], "pono": ["mettere"], 
+        "fero": ["portare"], "tum": ["allora"], "tunc": ["allora"], "neve": ["né"], "neu": ["né"], 
+        "nunc": ["adesso", "ora"], "vir": ["uomo"], "volo, vis, volui, velle": ["volere"], "iubeo": ["ordinare"], 
+        "sic": ["così"], "tamen": ["tuttavia"], "modo": ["soltanto"], "virtus": ["coraggio", "virtù"], "copia": ["quantità", "abbondanza"], 
+        "copiae": ["truppe"], "relinquo": ["lasciare", "andarsene"], "ago": ["condurre", "fare"], "ante": ["davanti", "prima"], 
+        "reliquus": ["rimanere"], "peto": ["chiedere"], "imperium": ["potere", "comando"], "socius": ["alleato"], 
+        "tam": ["tanto"], "ubi": ["dove"], "pro": ["a favore", "al posto"], "gero, is, gessi, gestum, gerere": ["fare", "compiere"], 
+        "ita": ["così"], "iter, itineris, n.": ["via", "viaggio"], "eo": ["a tal punto"], "quantus": ["quanto grande"], 
+        "cognosco": ["venire a sapere", "sapere", "conoscere"], "enim": ["infatti"], "vis, roboris, f.": ["forza"], "nam": ["infatti"], 
+        "prope": ["vicino"], "at": ["ma"], "accipio": ["ricevere"], "salus": ["salvezza"], "autem": ["poi"], 
+        "genus, generis, n.": ["stirpe", "genere"],
+        "tego, is, texi, tectum, tegere": ["coprire"],
+        "eques, equitis, m.": ["cavaliere"],
+        "equus": ["cavallo"],
+        "sine": ["senza"],
+        "telum": ["freccia", "dardo"],
+        "labor, -oris": ["fatica"],
+        "labor, laberis, lapsus sum, labi": ["scivolare", "cadere"],
+        "capio": ["prendere"],
+        "interficio": ["uccidere"],
+        "constituo": ["stabilire", "costituire"],
+        "gens, gentis": ["clan", "popolo"],
+        "os, oris": ["bocca", "volto"],
+        "vero": ["però", "davvero"],
+        "voco, as": ["chiamare"],
+        "contendo, is, contendi, contentum, contendere": ["dirigersi", "affrettarsi"],
+        "quidem": ["appunto", "certo"],
+        "coepi": ["iniziai"],
+        "ne... quidem": ["neppure"],
+        "oppidum": ["città"],
+        "equitatus, us, f.": ["cavalleria"],
+        "proficiscor, eris, profectus sum, proficisci": ["partire"],
+        "iste, a, istud": ["costui", "codesto"],
+        "pario, is, peperi, partum, parere": ["generare", "partorire"],
+        "ager, agri, m.": ["terreno", "campo"],
+        "recipio": ["ricevere"],
+        "se recipere": ["ritirarsi"],
+        "quaero": ["chiedere per sapere", "chiedere"],
+        "classis, is, f.": ["flotta"],
+        "imperator": ["comandante"],
+        "superus, a, um": ["del cielo"],
+        "scelus, sceleris, n.": ["crimine"],
+        "aequor, aeqouris": ["distesa", "superficie"],
+        "intellego, is, intellexi, intellectum, intellegere": ["capire"],
+        "signum, i, n.": ["segnale", "statua", "insegna"],
+        "pectus, pectoris": ["cuore", "petto"],
+        "studium, i, n.": ["impegno", "zelo"],
+        "agmen, agmenis, n.": ["esercito", "schiera"],
+        "obses, obsidis, m.": ["ostaggio"],
+        "fio, fis, factum sum, fieri": ["diventare", "accadere"],
+        "supero, -are": ["sconfiggere", "superare"],
+        "moenia": ["mura"],
+        "for, faris, fatus sum, fari": ["dire", "parlare"],
+        "transeo, -is, -ivi, -itum, -ire": ["passare", "attraversare"],
+        "fides, ei": ["fiducia", "fedeltà"],
+        "circum": ["intorno"],
+        "utor, uteris, usus sum, uti": ["servirsi", "usare"],
+        "conficio, conficis, -féci, -fectum, -ficere": ["portare a termine", "compiere"],
+        "convenio, convenis, -véni, -ventum, -ire": ["incontrarsi", "convenire"],
+        "ordo, ordinis": ["fila", "ordine", "rango"],
+        "ora, ae": ["costa", "riva"],
+        "ignis, is": ["fuoco"],
+        "cura, ae": ["preoccupazione", "cura"],
+        "arbitror, ari": ["ritenere", "giudicare"],
+        "impero, are": ["comandare"],
+        "ratio, onis, f.": ["conto", "ragione"],
+        "tueor, tuéris, tuitus sum, tuéri": ["custodire", "proteggere"],
+        "nisi": ["se non"],
+        "impetus": ["assalto", "slancio"],
+        "hibernus": ["invernale"],
+        "hiberna": ["accampamento invernale"],
+        "saepe": ["spesso"],
+        "servo, -are": ["salvare"],
+        "servio, -ire": ["essere schiavo"],
+        "hinc": ["di qui"],
+        "itaque": ["pertanto"],
+        "sentio, sentis, sensi, sensum, -ire": ["percepisco", "sentire"],
+        "acies": ["esercito", "schiera"],
+        "tandem": ["infine"],
+        "casus": ["circostanza", "caso"],
+        "ara, ae": ["altare"],
+        "deinde": ["poi", "quindi"],
+        "vincio, vincis, vinxi, vinctum, vincire": ["legare"],
+        "vinco, vincis, vici, victum, vincere": ["vincere"],
+        "vivo, vivis, vixi, victum, vivere": ["vivere"],
+        "pervenio, pérvenis, -véni, -ventum, -ire": ["arrivare", "venire"],
+        "quisque": ["ciascuno", "ognuno"],
+        "ius": ["diritto", "giustizia"],
+        "cogo, -is, coëgi, coactum, cogere": ["costringere", "radunare"],
+        "refero, refers, réttuli, relatum, -ferre": ["riportare", "riferire"],
+        "refert, réttuli, referre": ["importa"],
+        "sat(is)": ["abbastanza"],
+        "audeo, audes, ausus sum, audére": ["osare"],
+        "consisto, -is, constiti, -, consistere": ["fermarsi", "consistere"],
+        "eripio, éripis, eripui, ereptum, eripere": ["portar via", "strappare"],
+        "ibi": ["lì", "là"],
+        "tollo,is, tollere": ["alzare", "sollevare"],
+        "caput, capitis, n.": ["testa"],
+        "lapis, lapidis": ["sasso", "pietra"],
+        "saxum": ["roccia"],
+        "numen, numinis": ["volontà divina", "divinità", "volere degli dei"],
+        "quidam, quaedam, quoddam": ["un", "un tale"],
+        "nemo, neminis, n.": ["nessuno"],
+        "quisquam": ["alcuno"],
+        "prohibeo, pròhibes, prohibui, prohibitum, prohibére": ["impedire"],
+        "limen, liminis, n.": ["soglia"],
+        "limes, limitis": ["confine", "sentiero"],
+        "princeps, principis": ["primo", "capo"],
+        "committo, -is, -misi, -missum, -mittere": ["intraprendere", "affidare"],
+        "uterque": ["l'uno e l'altro"]
+    };
+
+    // STATO DEL GIOCO
+    // Convertiamo l'oggetto in array per gestirlo meglio
+    const allWordsData = Object.entries(initialVocabulary).map(([latin, italian]) => ({ latin, italian }));
+    
+    // activeRoundWords: Le parole che stiamo chiedendo in QUESTO round specifico
+    let activeRoundWords = [];
+    
+    // missedInCurrentRound: Le parole che ho sbagliato in QUESTO round (andranno nel prossimo)
+    let missedInCurrentRound = [];
+    
+    // errorLogForDisplay: Copia degli errori per mostrarli nel riepilogo
+    let errorLogForDisplay = [];
+    
+    let currentWord = {};
+    let isChecking = false;
+    let roundCount = 1;
+    let currentIndex = 0;
+
+    // Elementi DOM
+    const wordDisplay = document.getElementById('word-display');
+    const answerInput = document.getElementById('answer-input');
+    const submitButton = document.getElementById('submit-button');
+    const nextButton = document.getElementById('next-button');
+    const resultMessage = document.getElementById('result-message');
+    const quizArea = document.getElementById('quiz-area');
+    const roundSummary = document.getElementById('round-summary');
+    const errorList = document.getElementById('error-list');
+    const restartButton = document.getElementById('restart-round-button');
+    const roundIndicator = document.getElementById('round-indicator');
+    const currentIndexSpan = document.getElementById('current-index');
+    const totalRoundSpan = document.getElementById('total-round');
+
+    // Funzione Utility: Mischia Array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // 1. INIZIO DEL GIOCO (O NUOVO ROUND)
+    function startRound(wordsToAsk) {
+        // Resetta lo stato del round
+        activeRoundWords = [...wordsToAsk]; // Copia l'array
+        shuffleArray(activeRoundWords);
+        
+        missedInCurrentRound = []; // Reset errori per il prossimo ciclo
+        errorLogForDisplay = [];   // Reset log errori
+        
+        currentIndex = 0;
+        isChecking = false;
+
+        // UI Reset
+        quizArea.style.display = 'block';
+        roundSummary.style.display = 'none';
+        answerInput.value = '';
+        resultMessage.textContent = '';
+        submitButton.style.display = 'inline-block';
+        nextButton.style.display = 'none';
+        
+        // Aggiorna indicatori
+        roundIndicator.textContent = `Round ${roundCount}`;
+        totalRoundSpan.textContent = activeRoundWords.length;
+        
+        // Carica prima parola
+        loadNextWord();
+    }
+
+    // 2. CARICA PAROLA
+    function loadNextWord() {
+        if (activeRoundWords.length === 0) {
+            endRound();
+            return;
+        }
+        
+        currentWord = activeRoundWords[activeRoundWords.length - 1]; // Prende l'ultima
+        wordDisplay.textContent = currentWord.latin;
+        currentIndex++;
+        currentIndexSpan.textContent = currentIndex;
+        
+        // Focus input
+        answerInput.disabled = false;
+        answerInput.focus();
+    }
+
+    // 3. VERIFICA RISPOSTA
+    function checkAnswer() {
+        if (isChecking) return;
+
+        const userAnswer = answerInput.value.trim().toLowerCase();
+        // Crea array di risposte valide separando per slash e virgole se necessario, ma qui l'array è già pulito
+        // Per sicurezza appiattiamo:
+        const validAnswers = currentWord.italian.flatMap(ans => ans.split('/').map(s => s.trim().toLowerCase()));
+
+        const isCorrect = validAnswers.includes(userAnswer);
+        
+        // RIMUOVIAMO SEMPRE LA PAROLA DAL POOL ATTIVO (activeRoundWords)
+        // Perché in questo round l'abbiamo chiesta.
+        // Se è sbagliata, la aggiungeremo a 'missedInCurrentRound' per il PROSSIMO round.
+        activeRoundWords.pop();
+
+        if (isCorrect) {
+            resultMessage.className = 'correct';
+            resultMessage.textContent = "Corretto! ✅";
+        } else {
+            resultMessage.className = 'incorrect';
+            const correctString = currentWord.italian.join(', ');
+            resultMessage.innerHTML = `Sbagliato. ❌ Risposta: <strong>${correctString}</strong>`;
+            
+            // LOGICA CRITICA: SALVA ERRORE PER IL FUTURO
+            missedInCurrentRound.push(currentWord);
+            
+            // LOGICA CRITICA: SALVA ERRORE PER IL DISPLAY
+            errorLogForDisplay.push({
+                latin: currentWord.latin,
+                correct: correctString
+            });
+        }
+
+        // Cambio Bottoni
+        submitButton.style.display = 'none';
+        nextButton.style.display = 'inline-block';
+        answerInput.disabled = true;
+        isChecking = true;
+        
+        // Focus sul bottone next per premere invio velocemente
+        nextButton.focus();
+    }
+
+    // 4. PROSSIMA PAROLA (Click su Next)
+    function onNextClick() {
+        answerInput.value = '';
+        resultMessage.textContent = '';
+        submitButton.style.display = 'inline-block';
+        nextButton.style.display = 'none';
+        answerInput.disabled = false;
+        isChecking = false;
+        
+        loadNextWord();
+    }
+
+    // 5. FINE ROUND
+    function endRound() {
+        quizArea.style.display = 'none';
+        roundSummary.style.display = 'block';
+        
+        errorList.innerHTML = '';
+
+        if (missedInCurrentRound.length === 0) {
+            // VITTORIA TOTALE
+            document.getElementById('summary-title').textContent = "🎉 COMPLIMENTI! 🎉";
+            errorList.innerHTML = `<li style="text-align:center; color:green; font-weight:bold;">Hai completato il Round ${roundCount} senza errori!</li>`;
+            
+            if (roundCount === 1) {
+                // Vittoria perfetta al primo colpo
+                 restartButton.style.display = 'none';
+            } else {
+                // Ciclo di ripasso finito
+                restartButton.textContent = "Ricomincia tutto dall'inizio";
+                restartButton.style.display = 'inline-block';
+                restartButton.onclick = () => {
+                    roundCount = 1;
+                    startRound(allWordsData);
+                };
+            }
+        } else {
+            // CI SONO ERRORI DA RIPASSARE
+            document.getElementById('summary-title').textContent = `⚠️ Round ${roundCount} Completato`;
+            
+            // Mostra SOLO gli errori di questo round
+            errorList.innerHTML = `<li style="background:#eee; text-align:center;">Hai sbagliato ${missedInCurrentRound.length} parole. Ecco la lista:</li>`;
+            
+            errorLogForDisplay.forEach(err => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${err.latin}</strong> <span style="color:#7f8c8d;">&rarr;</span> ${err.correct}`;
+                errorList.appendChild(li);
+            });
+            
+            // Prepara il bottone per il prossimo round
+            restartButton.style.display = 'inline-block';
+            restartButton.textContent = `Inizia Round ${roundCount + 1} (Ripassa ${missedInCurrentRound.length} errori)`;
+            
+            restartButton.onclick = () => {
+                roundCount++;
+                // Passa SOLO le parole sbagliate al nuovo round
+                startRound(missedInCurrentRound);
+            };
+        }
+    }
+
+    // EVENT LISTENERS
+    submitButton.addEventListener('click', checkAnswer);
+    nextButton.addEventListener('click', onNextClick);
+
+    answerInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (!isChecking) {
+                checkAnswer();
+            } else {
+                // Se il bottone next è visibile, simula il click
+                onNextClick();
+            }
+        }
+    });
+
+    // START
+    startRound(allWordsData);
+
+</script>
+
+</body>
+</html>
